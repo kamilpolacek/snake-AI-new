@@ -1,32 +1,39 @@
 function Snake() {
-  this.x = game.width/2;
-  this.y = game.height/2;
+  this.x = canvas.width / 2;
+  this.y = canvas.height / 2;
   this.speedX = 0;
   this.speedY = 0;
+  this.tail = [];
+  this.total = 0;
 
 
+  this.create = function() {
+    ctx.fillStyle = "yellow";
 
+    for (let i=0; i<this.tail.length; i++) {
+      ctx.fillRect(this.tail[i].x,this.tail[i].y, size, size);
+    }
 
-  this.draw = function() {
-    ctx.fillStyle = "yellow"
-    ctx.fillRect(this.x, this.y, size, size )
+    ctx.fillRect(this.x, this.y, size, size);
   }
 
   this.move = function() {
-    this.gameOver();
+    this.tail[this.total - 1] = { x: this.x, y: this.y };
+    for (let i=0; i<this.tail.length - 1; i++) {
+      this.tail[i] = this.tail[i+1];
+    }
+
     this.x += this.speedX;
     this.y += this.speedY;
-    ctx.fillRect(this.x, this.y, size, size)
   }
+
   this.changeDirection = function(direction) {
-    switch(direction) {
+    switch (direction) {
       case 'Up':
-        console.log("Up");
         this.speedX = 0;
         this.speedY = -size;
         break;
       case 'Right':
-        console.log("Right");
         this.speedX = size;
         this.speedY = 0;
         break;
@@ -38,20 +45,31 @@ function Snake() {
         this.speedX = -size;
         this.speedY = 0;
         break;
-
-    }
-
-  }
-  this.gameOver = function() {
-    if(this.x < 0 || this.x == game.width) {
-      document.write("GAME OVER!");
-
-
-    }
-    if(this.y < 0 || this.y == game.height) {
-      document.write("GAME OVER!");
     }
   }
+
+  this.eatFruit = function(x, y) {
+    if(this.x == x && this.y == y) {
+      this.total++;
+
+      return true;
+    }
+    return false;
+  }
+
+
+
+  this.gameOver = function(time) {
+    if (this.x < 0 || this.x == canvas.width) {
+      document.write("GAME OVER!");
+      window.clearInterval(time);
+    }
+    if (this.y < 0 || this.y == canvas.height) {
+      document.write("GAME OVER!");
+      window.clearInterval(time);
+    }
+  }
+
 
 
 
