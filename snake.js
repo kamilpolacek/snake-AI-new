@@ -9,6 +9,7 @@ function Snake() {
 
   this.create = function() {
     ctx.fillStyle = "yellow";
+    ctx.fillText("Score : " + this.total, 500, 30);
 
     for (let i=0; i<this.tail.length; i++) {
       ctx.fillRect(this.tail[i].x,this.tail[i].y, size, size);
@@ -19,6 +20,9 @@ function Snake() {
 
   this.move = function() {
     this.tail[this.total - 1] = { x: this.x, y: this.y };
+    this.tail.forEach(function(item, index, array) {
+      console.log(item, index);
+    });
     for (let i=0; i<this.tail.length - 1; i++) {
       this.tail[i] = this.tail[i+1];
     }
@@ -51,7 +55,6 @@ function Snake() {
   this.eatFruit = function(x, y) {
     if(this.x == x && this.y == y) {
       this.total++;
-
       return true;
     }
     return false;

@@ -3,7 +3,8 @@ const ctx = canvas.getContext('2d');
 
 
 const size = 20;
-const speed = 150;
+var speed = 150;
+var total = 0;
 
 const width = canvas.width = 600;
 const height = canvas.height = 600;
@@ -24,7 +25,7 @@ const height = canvas.height = 600;
     fruit.create();
     snake.move();
     snake.create();
-    //did snake end up in the wall?
+    //did snake hit something?
     snake.gameOver(time);
     //did snake had some apple?
     //console.log("hi");
