@@ -32,6 +32,10 @@ function Snake() {
   }
 
   this.changeDirection = function(direction) {
+    if(this.wrongDirection(direction)) {
+      direction = "ignore :)";
+      console.log("ignore");
+    }
     switch (direction) {
       case 'Up':
         this.speedX = 0;
@@ -60,7 +64,20 @@ function Snake() {
     return false;
   }
 
-
+  this.wrongDirection = function(direction) {
+    if(direction == 'Up' && this.speedY == size && this.speedX == 0) {
+      return true;
+    }
+    if(direction == 'Right' && this.speedY == 0 && this.speedX == -size) {
+      return true;
+    }
+    if(direction == 'Down' && this.speedY == -size && this.speedX == 0) {
+      return true;
+    }
+    if(direction == 'Left' && this.speedY == 0 && this.speedX == size) {
+      return true;
+    }
+  }
 
   this.checkCrash = function(time) {
     for (let i=0; i<this.tail.length; i++) {

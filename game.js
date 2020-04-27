@@ -35,4 +35,5 @@ const height = canvas.height = 600;
 window.addEventListener('keydown', ((evt) => {
   var direction = evt.key.replace('Arrow', '');
   snake.changeDirection(direction);
+  setTimeout(50000);
 }));
