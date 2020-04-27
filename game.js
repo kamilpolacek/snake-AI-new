@@ -26,7 +26,7 @@ const height = canvas.height = 600;
     snake.move();
     snake.create();
     //did snake hit something?
-    snake.gameOver(time);
+    snake.checkCrash(time);
     //did snake had some apple?
     //console.log("hi");
   }, speed);

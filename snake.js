@@ -62,15 +62,25 @@ function Snake() {
 
 
 
-  this.gameOver = function(time) {
+  this.checkCrash = function(time) {
+    for (let i=0; i<this.tail.length; i++) {
+      if (this.tail[i].x == this.x  && this.tail[i].y == this.y)  {
+        this.gameOver();
+      }
+    }
+
+
     if (this.x < 0 || this.x == canvas.width) {
-      document.write("GAME OVER!");
-      window.clearInterval(time);
+      this.gameOver();
     }
     if (this.y < 0 || this.y == canvas.height) {
-      document.write("GAME OVER!");
-      window.clearInterval(time);
+      this.gameOver();
     }
+  }
+
+  this.gameOver = function() {
+    document.write("GAME OVER!");
+    window.clearInterval(time);
   }
 
 
