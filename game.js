@@ -5,6 +5,7 @@ const ctx = canvas.getContext('2d');
 const size = 20;
 var speed = 150;
 var total = 0;
+var commands = 0;
 
 const width = canvas.width = 600;
 const height = canvas.height = 600;
@@ -17,6 +18,7 @@ const height = canvas.height = 600;
   fruit.pickLocation();
 
   time = window.setInterval(() => {
+    console.log("hii");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if(snake.eatFruit(fruit.x, fruit.y)){
       fruit.pickLocation();
@@ -34,6 +36,9 @@ const height = canvas.height = 600;
 
 window.addEventListener('keydown', ((evt) => {
   var direction = evt.key.replace('Arrow', '');
-  snake.changeDirection(direction);
-  setTimeout(50000);
+
+  if(commands == 0) {
+    snake.changeDirection(direction);
+    commands++;
+  }
 }));

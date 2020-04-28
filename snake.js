@@ -9,19 +9,21 @@ function Snake() {
 
   this.create = function() {
     ctx.fillStyle = "yellow";
+    ctx.font = "20px Georgia";
     ctx.fillText("Score : " + this.total, 500, 30);
 
-    for (let i=0; i<this.tail.length; i++) {
+    for(let i=0; i<this.tail.length; i++) {
       ctx.fillRect(this.tail[i].x,this.tail[i].y, size, size);
     }
 
     ctx.fillRect(this.x, this.y, size, size);
+    commands = 0;
   }
 
   this.move = function() {
     this.tail[this.total - 1] = { x: this.x, y: this.y };
     this.tail.forEach(function(item, index, array) {
-      console.log(item, index);
+      //console.log(item, index);
     });
     for (let i=0; i<this.tail.length - 1; i++) {
       this.tail[i] = this.tail[i+1];
@@ -54,6 +56,7 @@ function Snake() {
         this.speedY = 0;
         break;
     }
+
   }
 
   this.eatFruit = function(x, y) {
@@ -77,6 +80,8 @@ function Snake() {
     if(direction == 'Left' && this.speedY == 0 && this.speedX == size) {
       return true;
     }
+
+    return false;
   }
 
   this.checkCrash = function(time) {
