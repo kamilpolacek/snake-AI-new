@@ -1,4 +1,10 @@
-1.killing itself with just fast key pressing
+GAME
+1.killing itself with just fast key pressing (fixed)  (although could be better & could be problem when pc is running the snake)
 2.not eating the second apple?
-3.apples appearing inside snake
+3.apples appearing inside the snake? (fixed) (had to delete fruit.js for fixing tho)
 4. ?
+
+UI
+
+
+WEB APP & DESIGN 

@@ -6,6 +6,8 @@ const size = 20;
 var speed = 150;
 var total = 0;
 var commands = 0;
+var time = 0;
+
 
 const width = canvas.width = 600;
 const height = canvas.height = 600;
@@ -13,18 +15,17 @@ const height = canvas.height = 600;
 
 (function setup() {
   snake = new Snake();
-  fruit = new Fruit();
 
-  fruit.pickLocation();
+
+  snake.pickFruitLocation();
 
   time = window.setInterval(() => {
-    console.log("hii");
+    //console.log("hii");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if(snake.eatFruit(fruit.x, fruit.y)){
-      fruit.pickLocation();
-      console.log(fruit.x + " " + fruit.y);
+    if(snake.eatFruit()){
+      snake.pickFruitLocation();
     }
-    fruit.create();
+    snake.createFruit();
     snake.move();
     snake.create();
     //did snake hit something?

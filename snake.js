@@ -1,10 +1,13 @@
 function Snake() {
-  this.x = canvas.width / 2;
-  this.y = canvas.height / 2;
-  this.speedX = 0;
-  this.speedY = 0;
-  this.tail = [];
-  this.total = 0;
+  this.x = canvas.width / 2;  //initial snake x position
+  this.y = canvas.height / 2; //initial snake y position
+  this.fruitX = 0; // fruit x position
+  this.fruitY = 0; // fruit y position
+
+  this.speedX = 0; // direction of movement ( right(+) / left(-) )
+  this.speedY = 0; // direction of movement ( up(-) / down(+) )
+  this.tail = []; // array for tail of the snake
+  this.total = 0; // total pieces of tail
 
 
   this.create = function() {
@@ -32,12 +35,33 @@ function Snake() {
     this.x += this.speedX;
     this.y += this.speedY;
   }
+  this.pickFruitLocation = function() {
+    this.fruitX = Math.ceil(Math.random() * (width / size)-1) * size;
+    this.fruitY = Math.ceil(Math.random() * (height / size)-1) * size;
+
+    if(this.fruitX == this.x && this.fruitY == this.y) {
+      console.log("picking again 1");
+      this.pickFruitLocation();
+    }
+
+    for(let i=0; i<this.tail.length; i++) {
+      if(this.fruitX == this.tail[i].x && this.fruitY == this.tail[i].y) {
+        console.log("picking again 2");
+        this.pickFruitLocation();
+      }
+    }
+  }
+
+  this.createFruit = function() {
+    ctx.fillStyle = "blue";
+    ctx.fillRect(this.fruitX, this.fruitY, size, size)
+  }
 
   this.changeDirection = function(direction) {
     if(this.wrongDirection(direction)) {
       direction = "ignore :)";
-      console.log("ignore");
     }
+
     switch (direction) {
       case 'Up':
         this.speedX = 0;
@@ -59,14 +83,6 @@ function Snake() {
 
   }
 
-  this.eatFruit = function(x, y) {
-    if(this.x == x && this.y == y) {
-      this.total++;
-      return true;
-    }
-    return false;
-  }
-
   this.wrongDirection = function(direction) {
     if(direction == 'Up' && this.speedY == size && this.speedX == 0) {
       return true;
@@ -84,13 +100,20 @@ function Snake() {
     return false;
   }
 
-  this.checkCrash = function(time) {
+  this.eatFruit = function() {
+    if(this.x == this.fruitX && this.y == this.fruitY) {
+      this.total++;
+      return true;
+    }
+    return false;
+  }
+
+  this.checkCrash = function() {
     for (let i=0; i<this.tail.length; i++) {
       if (this.tail[i].x == this.x  && this.tail[i].y == this.y)  {
         this.gameOver();
       }
     }
-
 
     if (this.x < 0 || this.x == canvas.width) {
       this.gameOver();
@@ -104,7 +127,6 @@ function Snake() {
     document.write("GAME OVER!");
     window.clearInterval(time);
   }
-
 
 
 
