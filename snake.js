@@ -37,7 +37,7 @@ function Snake() {
   }
 /******** draws fruit on the screen ********/
   this.createFruit = function() {
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = "#47d6d1";
     ctx.fillRect(this.fruitX, this.fruitY, size, size)
   }
 
