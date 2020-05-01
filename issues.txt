@@ -4,6 +4,12 @@ GAME
 3.apples appearing inside the snake? (fixed)
 
 UI
-
+1. deal with the second window for UI player
+1.Jak bude UI hrat?
+2. Strom
+3. function
+4.
 
 WEB APP & DESIGN
+
+rukavice,iq

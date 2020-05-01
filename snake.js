@@ -9,19 +9,24 @@ function Snake() {
   this.total = 3; // total pieces of tail
 
 /******** draws snake on the screen ********/
-  this.create = function() {
+  this.create = function(ctx) {
     ctx.font = "20px Georgia";
     ctx.fillStyle = "red";
     ctx.fillText("Score : " + (this.total-3), 500, 30);
 
 
+
+
     for(let i=0; i<this.tail.length; i++) {
       ctx.fillStyle = "blue";
       ctx.fillRect(this.tail[i].x,this.tail[i].y, size, size);
+
     }
 
     ctx.fillStyle = "yellow";
     ctx.fillRect(this.x, this.y, size, size);
+
+
     commands = 0;
   }
 /******** move snakes in logic before drawning it ********/
@@ -36,15 +41,15 @@ function Snake() {
     this.y += this.speedY;
   }
 /******** draws fruit on the screen ********/
-  this.createFruit = function() {
-    ctx.fillStyle = "#47d6d1";
+  this.createFruit = function(ctx) {
+    ctx.fillStyle = "green";
     ctx.fillRect(this.fruitX, this.fruitY, size, size)
   }
 
 /******** pick location for fruit avoiding snake ********/
   this.pickFruitLocation = function() {
-    this.fruitX = Math.ceil(Math.random() * (width / size)-1) * size;
-    this.fruitY = Math.ceil(Math.random() * (height / size)-1) * size;
+    this.fruitX = Math.ceil(Math.random() * (canvas.width / size)-1) * size;
+    this.fruitY = Math.ceil(Math.random() * (canvas.height / size)-1) * size;
 
     if(this.fruitX == this.x && this.fruitY == this.y) {
       this.pickFruitLocation();
@@ -113,15 +118,18 @@ function Snake() {
   this.checkCrash = function() {
     for (let i=0; i<this.tail.length; i++) {
       if (this.tail[i].x == this.x  && this.tail[i].y == this.y)  {
+        console.log("1");
         this.gameOver();
       }
     }
 
     if (this.x < 0 || this.x == canvas.width) {
+      console.log("2");
       this.gameOver();
     }
 
     if (this.y < 0 || this.y == canvas.height) {
+      console.log("3");
       this.gameOver();
     }
   }
