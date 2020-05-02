@@ -1,15 +1,27 @@
-GAME
+GAME = html, css, javascript, canvas, genetic programming, /*recursion*/, binary tree, github
+
 1.killing itself with just fast key pressing (fixed)  (although could be better & could be problem when pc is running the snake)
 2.not eating the second apple? (fixed) (laziest way possible)
 3.apples appearing inside the snake? (fixed)
+4.only arrow key-pressing should get through! (fixed)
+5.function for placing fruit is imperfect
+6.game speed increases if fruit is eaten?
 
 UI
-1. deal with the second window for UI player
-1.Jak bude UI hrat?
-2. Strom
-3. function
-4.
+1. deal with the second window for UI player (done)
+2. how will ui play (done i guess)
+3. tree class
+xx. will ui be spared unnecessary moves? (can i use wrongDirection from snake class somehow?)
 
 WEB APP & DESIGN
+1. design the shit out of it
+2. multiple devices problem
 
-rukavice,iq
+TO DO
+1.genetic algorithm that creates an algorithm for solving quadratic equations?
+2.iq test (couse y ar dumb as shit :D)
+
+NOTES
+1.apparently using var is outdated
+2.using let lets you private variables
+3.js is kinda weird

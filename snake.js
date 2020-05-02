@@ -14,18 +14,13 @@ function Snake() {
     ctx.fillStyle = "red";
     ctx.fillText("Score : " + (this.total-3), 500, 30);
 
-
-
-
     for(let i=0; i<this.tail.length; i++) {
       ctx.fillStyle = "blue";
       ctx.fillRect(this.tail[i].x,this.tail[i].y, size, size);
-
     }
 
     ctx.fillStyle = "yellow";
     ctx.fillRect(this.x, this.y, size, size);
-
 
     commands = 0;
   }
@@ -42,7 +37,7 @@ function Snake() {
   }
 /******** draws fruit on the screen ********/
   this.createFruit = function(ctx) {
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "purple";
     ctx.fillRect(this.fruitX, this.fruitY, size, size)
   }
 
@@ -117,7 +112,7 @@ function Snake() {
 /******** checking for crashing ********/
   this.checkCrash = function() {
     for (let i=0; i<this.tail.length; i++) {
-      if (this.tail[i].x == this.x  && this.tail[i].y == this.y)  {
+      if (this.tail[i].x == this.x  && this.tail[i].y == this.y) {
         console.log("1");
         this.gameOver();
       }

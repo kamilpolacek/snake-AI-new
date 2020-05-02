@@ -2,24 +2,43 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-//canvas for UI
+//canvas for AI
 const canvas2 = document.getElementById('canvas2');
 const ctx2 = canvas2.getContext('2d');
 
-
+//canvas size
 canvas.width = canvas.height = canvas2.width = canvas2.height = 600;
 
-const size = 20; // size of snake pieces
+//game variables
+const size = 20; // size of snake pieces & fruits
 var speed = 120; // speed of the game
 var commands = 0; // counts commands from keyboard -> only one per interval allowed
 var time = 0; // for ending the setInterval
-var start = false; // true if the game started
+var start = false; // true if player started started
+var start2 = false; // true if computer started
 
+
+//AI variables
 
 
 /******** main function for the player ********/
 (function setup() {
   snake = new Snake();
+
+
+
+
+  bTree = new BinaryTree();
+  bTree.insertNode(1);
+  bTree.insertNode(2);
+  bTree.insertNode(3);
+  bTree.insertNode(4);
+  bTree.insertNode(5);
+  console.log(bTree);
+
+
+
+
   //initial logic and game drawing
   snake.move();
   snake.move(); // dealing with snakes tail (twice)
@@ -38,7 +57,7 @@ var start = false; // true if the game started
       snake.createFruit(ctx);
       snake.move();
       snake.create(ctx);
-    //  snake.checkCrash(time);
+      snake.checkCrash(time);
     }
   }, speed);
 }());
@@ -52,10 +71,10 @@ var start = false; // true if the game started
   snake2.pickFruitLocation();
   snake2.createFruit(ctx2);
 
-  time = window.setInterval(() => {
+  //snake.changeDirection(Ai.chooseDirection());
+  time2 = window.setInterval(() => {
     if(start) {
       ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-
       if(snake2.eatFruit()){
         snake2.pickFruitLocation();
       }
@@ -63,7 +82,7 @@ var start = false; // true if the game started
       snake2.createFruit(ctx2);
       snake2.move();
       snake2.create(ctx2);
-      snake2.checkCrash(time);
+      snake2.checkCrash(time2);
     }
   }, speed);
 }());
@@ -72,7 +91,7 @@ window.addEventListener('keydown', ((evt) => {
   var direction = evt.key.replace('Arrow', '');
   start = true;
 
-  if(commands == 0) {
+  if(commands == 0 && ( direction == 'Up' || direction == 'Right' || direction == 'Down' || direction == 'Left')) {
     snake.changeDirection(direction);
     snake2.changeDirection(direction);
     commands++;
