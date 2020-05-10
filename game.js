@@ -17,7 +17,6 @@ var time = 0; // for ending the setInterval
 var start = false; // true if player started started
 var start2 = false; // true if computer started
 
-
 //AI variables
 
 
@@ -27,13 +26,9 @@ var start2 = false; // true if computer started
 
 
 
-
+  ai = new Ai();
   bTree = new BinaryTree();
-  bTree.insertNode(1);
-  bTree.insertNode(2);
-  bTree.insertNode(3);
-  bTree.insertNode(4);
-  bTree.insertNode(5);
+  bTree.makeRandomTree(4, bTree.root);
   console.log(bTree);
 
 
@@ -71,9 +66,8 @@ var start2 = false; // true if computer started
   snake2.pickFruitLocation();
   snake2.createFruit(ctx2);
 
-  //snake.changeDirection(Ai.chooseDirection());
   time2 = window.setInterval(() => {
-    if(start) {
+    //snake2.changeDirection(Ai.chooseDirection(),snake2.speedX, snake2.speedY);
       ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
       if(snake2.eatFruit()){
         snake2.pickFruitLocation();
@@ -83,7 +77,7 @@ var start2 = false; // true if computer started
       snake2.move();
       snake2.create(ctx2);
       snake2.checkCrash(time2);
-    }
+
   }, speed);
 }());
 /******** listens for keyboard input ********/

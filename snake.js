@@ -40,11 +40,10 @@ function Snake() {
     ctx.fillStyle = "purple";
     ctx.fillRect(this.fruitX, this.fruitY, size, size)
   }
-
 /******** pick location for fruit avoiding snake ********/
   this.pickFruitLocation = function() {
-    this.fruitX = Math.ceil(Math.random() * (canvas.width / size)-1) * size;
-    this.fruitY = Math.ceil(Math.random() * (canvas.height / size)-1) * size;
+    this.fruitX = Math.round(Math.random() * (canvas.width / size)-1) * size;
+    this.fruitY = Math.round(Math.random() * (canvas.height / size)-1) * size;
 
     if(this.fruitX == this.x && this.fruitY == this.y) {
       this.pickFruitLocation();
@@ -133,6 +132,5 @@ function Snake() {
     document.write("GAME OVER!");
     window.clearInterval(time);
   }
-
 
 }

@@ -1,7 +1,12 @@
 function Ai() {
-  this.treeDepth;
+  this.tree = new BinaryTree();
+  this.currentDirection = null;
 
   this.chooseDirection = function() {
-    
+
+  }
+
+  this.dangerUp = function() {
+    if()
   }
 }
