@@ -11,32 +11,28 @@ canvas.width = canvas.height = canvas2.width = canvas2.height = 600;
 
 //game variables
 const size = 20; // size of snake pieces & fruits
-var speed = 120; // speed of the game
+const speed = 120; // speed of the game
 var commands = 0; // counts commands from keyboard -> only one per interval allowed
 var time = 0; // for ending the setInterval
 var start = false; // true if player started started
 var start2 = false; // true if computer started
 
 //AI variables
+snake = new Snake();
+ai = new Ai(snake);
+ai.makeInitPopulation(101, 5); // init population size && maxDepth of each tree
+//ai.runSimulation();
+console.log(ai.population);
+
+
 
 
 /******** main function for the player ********/
 (function setup() {
-  snake = new Snake();
-
-
-
-  ai = new Ai();
-  bTree = new BinaryTree();
-  bTree.makeRandomTree(4, bTree.root);
-  console.log(bTree);
-
-
-
 
   //initial logic and game drawing
   snake.move();
-  snake.move(); // dealing with snakes tail (twice)
+  snake.move(); // dealing with snake tail (twice)
   snake.create(ctx);
   snake.pickFruitLocation();
   snake.createFruit(ctx);
@@ -49,15 +45,27 @@ var start2 = false; // true if computer started
         snake.pickFruitLocation();
       }
 
+      /*if(ai.dangerUp()) {
+        console.log("dangerUp");
+      }
+      if(ai.dangerRight()) {
+        console.log("dangerRight");
+      }
+      if(ai.dangerDown()) {
+        console.log("dangerDown");
+      }*/
       snake.createFruit(ctx);
       snake.move();
       snake.create(ctx);
       snake.checkCrash(time);
+      if(ai.fruitLeft()) {
+        console.log("left");
+      }
     }
   }, speed);
 }());
 /******** main function for the UI********/
-(function setup() {
+/*(function setup() {
   snake2 = new Snake();
   //initial logic and game drawing
   snake2.move();
@@ -67,7 +75,7 @@ var start2 = false; // true if computer started
   snake2.createFruit(ctx2);
 
   time2 = window.setInterval(() => {
-    //snake2.changeDirection(Ai.chooseDirection(),snake2.speedX, snake2.speedY);
+    //snake2.changeDirection(Ai.chooseDirection());
       ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
       if(snake2.eatFruit()){
         snake2.pickFruitLocation();
@@ -83,11 +91,11 @@ var start2 = false; // true if computer started
 /******** listens for keyboard input ********/
 window.addEventListener('keydown', ((evt) => {
   var direction = evt.key.replace('Arrow', '');
-  start = true;
 
-  if(commands == 0 && ( direction == 'Up' || direction == 'Right' || direction == 'Down' || direction == 'Left')) {
+  if(commands == 0 && (direction == 'Up' || direction == 'Right' || direction == 'Down' || direction == 'Left') ) {
+    commands = 1;
+    start = true; //
     snake.changeDirection(direction);
-    snake2.changeDirection(direction);
-    commands++;
+    //direction = 'nothiiin'
   }
 }));

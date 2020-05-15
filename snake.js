@@ -1,28 +1,27 @@
 function Snake() {
   this.x = canvas.width / 2;  //initial snake x position
   this.y = canvas.height / 2; //initial snake y position
+  this.size = 20; // size of an object on canvas
   this.fruitX = 0; // fruit x position
   this.fruitY = 0; // fruit y position
   this.speedX = 0; // direction of the movement ( right(+20px) / left(-20) )
   this.speedY = 0; // direction of the movement ( up(-20) / down(+20) )
-  this.tail = []; // array for tail of the snake
+  this.tail = []; // array for snakes tail
   this.total = 3; // total pieces of tail
 
 /******** draws snake on the screen ********/
-  this.create = function(ctx) {
+  this.create = function() {
     ctx.font = "20px Georgia";
     ctx.fillStyle = "red";
     ctx.fillText("Score : " + (this.total-3), 500, 30);
 
     for(let i=0; i<this.tail.length; i++) {
       ctx.fillStyle = "blue";
-      ctx.fillRect(this.tail[i].x,this.tail[i].y, size, size);
+      ctx.fillRect(this.tail[i].x,this.tail[i].y, this.size, this.size) ;
     }
 
     ctx.fillStyle = "yellow";
-    ctx.fillRect(this.x, this.y, size, size);
-
-    commands = 0;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
   }
 /******** move snakes in logic before drawning it ********/
   this.move = function() {
@@ -34,17 +33,18 @@ function Snake() {
 
     this.x += this.speedX;
     this.y += this.speedY;
+    commands = 0;
   }
 /******** draws fruit on the screen ********/
-  this.createFruit = function(ctx) {
+  this.createFruit = function() {
     ctx.fillStyle = "purple";
-    ctx.fillRect(this.fruitX, this.fruitY, size, size)
+    ctx.fillRect(this.fruitX, this.fruitY, this.size, this.size)
   }
 /******** pick location for fruit avoiding snake ********/
   this.pickFruitLocation = function() {
-    this.fruitX = Math.round(Math.random() * (canvas.width / size)-1) * size;
-    this.fruitY = Math.round(Math.random() * (canvas.height / size)-1) * size;
-
+    this.fruitX = Math.ceil(Math.random() * (canvas.width / this.size)-1) * this.size;
+    this.fruitY = Math.ceil(Math.random() * (canvas.height / this.size)-1) * this.size;
+    console.log(this.fruitX + " " + this.fruitY);
     if(this.fruitX == this.x && this.fruitY == this.y) {
       this.pickFruitLocation();
     }
@@ -64,36 +64,36 @@ function Snake() {
     switch (direction) {
       case 'Up':
         this.speedX = 0;
-        this.speedY = -size;
+        this.speedY = -this.size;
         break;
       case 'Right':
-        this.speedX = size;
+        this.speedX = this.size;
         this.speedY = 0;
         break;
       case 'Down':
         this.speedX = 0;
-        this.speedY = size;
+        this.speedY = this.size;
         break;
       case 'Left':
-        this.speedX = -size;
+        this.speedX = -this.size;
         this.speedY = 0;
         break;
     }
   }
 /******** checking if suggested direction can be moved to ********/
   this.wrongDirection = function(direction) {
-    if(direction == 'Up' && this.speedY == size && this.speedX == 0) {
+    if(direction == 'Up' && this.speedY == this.size && this.speedX == 0) {
       return true;
     }
-    if(direction == 'Right' && this.speedY == 0 && this.speedX == -size) {
-      return true;
-    }
-
-    if(direction == 'Down' && this.speedY == -size && this.speedX == 0) {
+    if(direction == 'Right' && this.speedY == 0 && this.speedX == -this.size) {
       return true;
     }
 
-    if(direction == 'Left' && this.speedY == 0 && this.speedX == size) {
+    if(direction == 'Down' && this.speedY == -this.size && this.speedX == 0) {
+      return true;
+    }
+
+    if(direction == 'Left' && this.speedY == 0 && this.speedX == this.size)  {
       return true;
     }
 

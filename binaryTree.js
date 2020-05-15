@@ -1,14 +1,7 @@
 // how often do you want skipping? what is more likely function or terminal?
-
 function BinaryTree () {
-  //since i have to define root, functions are declared already at the top (might be even good idea generally for commenting)
-  this.chooseTerminal = function() {};
-  this.chooseFunction = function() {};
-  this.chooseFunctionOrTerminal = function() {};
-
   this.root = {
-    nodeNumber : 0,
-    data : this.chooseTerminal(),
+    data : 0,
     leftChild : null,
     rightChild : null,
   };
@@ -16,6 +9,7 @@ function BinaryTree () {
   this.fitness = 0;
   this.nodeNumber = 0;
   this.depth = 0;
+  this.nOfNodes = 0;
 
   this.makeRandomTree = function(maxDepth, current) {
     if(maxDepth == 0) {
@@ -23,25 +17,22 @@ function BinaryTree () {
       return;
     }
 
-    if( (Math.round(Math.random()*10)) == 10 && this.current != this.root) {
-      console.log("skipped");
+    if( (Math.round(Math.random()*15)) == 15 && current != this.root) {
+      //console.log("skipped");
       return;
     }
 
-    this.nodeNumber++;
     let newNode1 = {
-      nodeNumber : this.nodeNumber,
       data : this.chooseFunctionOrTerminal(),
       leftChild : null,
       rightChild : null
     }
-    this.nodeNumber++;
     let newNode2 = {
-      nodeNumber : this.nodeNumber,
       data : this.chooseFunctionOrTerminal(),
       leftChild : null,
       rightChild : null
     }
+    this.nOfNodes += 2;
 
 
     current.leftChild = newNode1;
@@ -52,6 +43,9 @@ function BinaryTree () {
   }
 
   this.chooseFunctionOrTerminal = function() {
+    if(this.root.data === 0) {
+      this.root.data = this.chooseFunction();
+    }
     if((Math.round(Math.random()*1)) == 1)
       return this.chooseFunction();
     else {
