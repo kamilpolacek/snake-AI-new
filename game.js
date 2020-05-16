@@ -18,11 +18,12 @@ var start = false; // true if player started started
 var start2 = false; // true if computer started
 
 //AI variables
-snake = new Snake();
-ai = new Ai(snake);
-ai.makeInitPopulation(101, 5); // init population size && maxDepth of each tree
-//ai.runSimulation();
-console.log(ai.population);
+snake = new Snake(); // player snake
+snake2 = new Snake(); // ai snake
+ai = new Ai(snake, 101, 5); // population size // maxDepth of each tree
+ai.makeInitPopulation(); // init population size && maxDepth of each tree
+ai.runSimulation();
+//console.log(ai.population);
 
 
 
@@ -45,37 +46,25 @@ console.log(ai.population);
         snake.pickFruitLocation();
       }
 
-      /*if(ai.dangerUp()) {
-        console.log("dangerUp");
-      }
-      if(ai.dangerRight()) {
-        console.log("dangerRight");
-      }
-      if(ai.dangerDown()) {
-        console.log("dangerDown");
-      }*/
       snake.createFruit(ctx);
       snake.move();
       snake.create(ctx);
       snake.checkCrash(time);
-      if(ai.fruitLeft()) {
-        console.log("left");
-      }
     }
   }, speed);
 }());
 /******** main function for the UI********/
-/*(function setup() {
-  snake2 = new Snake();
+(function setup() {
   //initial logic and game drawing
   snake2.move();
   snake2.move(); // dealing with snakes tail (twice)
   snake2.create(ctx2);
   snake2.pickFruitLocation();
   snake2.createFruit(ctx2);
+  //snake2.speedY = -snake2.size;
 
   time2 = window.setInterval(() => {
-    //snake2.changeDirection(Ai.chooseDirection());
+      snake2.changeDirection(Ai.chooseDirection());
       ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
       if(snake2.eatFruit()){
         snake2.pickFruitLocation();

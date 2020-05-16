@@ -10,7 +10,7 @@ function Snake() {
   this.total = 3; // total pieces of tail
 
 /******** draws snake on the screen ********/
-  this.create = function() {
+  this.create = function(ctx) {
     ctx.font = "20px Georgia";
     ctx.fillStyle = "red";
     ctx.fillText("Score : " + (this.total-3), 500, 30);
@@ -36,7 +36,7 @@ function Snake() {
     commands = 0;
   }
 /******** draws fruit on the screen ********/
-  this.createFruit = function() {
+  this.createFruit = function(ctx) {
     ctx.fillStyle = "purple";
     ctx.fillRect(this.fruitX, this.fruitY, this.size, this.size)
   }
@@ -129,8 +129,8 @@ function Snake() {
   }
 /******** ending the game ********/
   this.gameOver = function() {
-    document.write("GAME OVER!");
-    window.clearInterval(time);
+    //document.write("GAME OVER!");
+    //window.clearInterval(time);
   }
 
 }

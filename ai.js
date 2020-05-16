@@ -1,6 +1,8 @@
-function Ai(snake) {
+function Ai(snake, populationSize, maxDepth) {
   this.snake = snake;
   this.population = [];
+  this.populationSize = populationSize;
+  this.maxDepth = maxDepth;
   //this.currentDirection = 'Up';
 
 
@@ -12,16 +14,19 @@ function Ai(snake) {
     this.snake.move();
     this.snake.move(); // dealing with snakes tail (twice)
     this.snake.pickFruitLocation();
+
   }
 
   this.chooseDirection = function() {
-
+    this.population[0].root;
   }
 
-  this.makeInitPopulation = function(populationSize,maxDepth) {
-    for(let i=0; i<populationSize; i++) {
+  
+
+  this.makeInitPopulation = function() {
+    for(let i=0; i<this.populationSize; i++) {
       this.population[i] = new BinaryTree();
-      this.population[i].makeRandomTree(5,this.population[i].root);
+      this.population[i].makeRandomTree(this.maxDepth,this.population[i].root);
     }
   }
 /******** looking for danger functions -> if one step ahead returns true ********/
