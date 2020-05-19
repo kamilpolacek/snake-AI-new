@@ -18,6 +18,7 @@ function BinaryTree () {
     }
 
     if( (Math.round(Math.random()*15)) == 15 && current != this.root) {
+      current.data = this.chooseTerminal();
       //console.log("skipped");
       return;
     }
@@ -43,10 +44,11 @@ function BinaryTree () {
   }
 
   this.chooseFunctionOrTerminal = function() {
+    let random = Math.round(Math.random()*1);
     if(this.root.data === 0) {
       this.root.data = this.chooseFunction();
     }
-    if((Math.round(Math.random()*1)) == 1)
+    if(random == 1)
       return this.chooseFunction();
     else {
       return this.chooseTerminal();

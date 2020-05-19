@@ -34,4 +34,5 @@ TO DO
 
 14.4. -> making functions for ui
 15.4. -> writing functions for ui & testing them
-16.4 -> test run of the best in the initial population  (should i do more than one evaluation and then make an average ?? )
+16.4. -> test run of the best in the initial population  (should i do more than one evaluation and then make an average ?? )
+19.4. -> same (im so fuckn slow)

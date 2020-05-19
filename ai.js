@@ -1,5 +1,5 @@
-function Ai(snake, populationSize, maxDepth) {
-  this.snake = snake;
+function Ai(populationSize, maxDepth) {
+  this.snake;
   this.population = [];
   this.populationSize = populationSize;
   this.maxDepth = maxDepth;
@@ -9,26 +9,108 @@ function Ai(snake, populationSize, maxDepth) {
   this.runEvolution = function() {
 
   }
-
-  this.runSimulation = function() {
-    this.snake.move();
-    this.snake.move(); // dealing with snakes tail (twice)
-    this.snake.pickFruitLocation();
-
-  }
-
-  this.chooseDirection = function() {
-    this.population[0].root;
-  }
-
-  
-
   this.makeInitPopulation = function() {
     for(let i=0; i<this.populationSize; i++) {
       this.population[i] = new BinaryTree();
       this.population[i].makeRandomTree(this.maxDepth,this.population[i].root);
     }
   }
+
+  this.runSimulation = function() {
+    for(let i=0; i<this.populationSize; i++) {
+      this.snake = new Snake()
+      this.snake.move();
+      this.snake.move();
+      this.snake.speedX += this.snake.size;
+      this.snake.move();
+      this.snake.pickFruitLocation();
+
+      let move = 0;
+      while(!this.snake.checkCrash()) {
+        move++
+        this.snake.changeDirection(this.chooseDirection(i));
+        this.snake.move();
+        if(this.snake.eatFruit()){
+          this.snake.pickFruitLocation();
+          this.population[i].fitness += 1;
+        }
+        //console.log("move " + move);
+        if(move >= 5000) {
+          //console.log("too much steps");
+          this.population[i].fitness = 0;
+          break;
+        }
+        this.population[i].fitness += 0.01;
+
+      }
+
+    //  console.log(this.population[i]);
+      //console.log("konec " + i );
+      this.population[i].fitness = Math.round(parseFloat(this.population[i].fitness)*100)/100;
+    }
+
+  }
+//returning up,right,down,left
+  this.chooseDirection = function(position) {
+    let current = this.population[position].root;
+
+    while(true) {
+      if(current.data == "Up" || current.data  == "Right" || current.data  == "Down" || current.data  == "Left")
+        return  current.data;
+
+      if(this.stringToFunction(current.data))
+        current = current.rightChild;
+      else
+        current = current.leftChild;
+    }
+  }
+
+  this.chooseDirection2 = function(position) {
+    let current = this.population[position].root;
+
+    while(true) {
+      console.log( ">>> " +current.data);
+      if(current.data == "Up" || current.data  == "Right" || current.data  == "Down" || current.data  == "Left")
+        return  current.data;
+
+      if(this.stringToFunction(current.data))
+        current = current.rightChild;
+      else
+        current = current.leftChild;
+    }
+  }
+
+  this.stringToFunction = function(string) {
+    switch(string) {
+      case "dangerUp":
+        return this.dangerUp();
+      case "dangerRight":
+        return this.dangerRight();
+      case "dangerDown":
+        return this.dangerDown();
+      case "dangerLeft":
+        return this.dangerLeft();
+      case "movingUp":
+        return this.movingUp();
+      case "movingRight":
+        return this.movingRight();
+      case "movingDown":
+        return this.movingDown();
+      case "movingLeft":
+        return this.movingLeft();
+      case "fruitUp":
+        return this.fruitUp();
+      case "fruitRight":
+        return this.fruitRight();
+      case "fruitDown":
+        return this.fruitDown();
+      case "fruitLeft":
+        return this.fruitLeft();
+    }
+  }
+
+
+
 /******** looking for danger functions -> if one step ahead returns true ********/
   this.dangerUp = function() {
     if(this.snake.y == 0) {

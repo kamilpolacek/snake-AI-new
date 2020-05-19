@@ -44,7 +44,7 @@ function Snake() {
   this.pickFruitLocation = function() {
     this.fruitX = Math.ceil(Math.random() * (canvas.width / this.size)-1) * this.size;
     this.fruitY = Math.ceil(Math.random() * (canvas.height / this.size)-1) * this.size;
-    console.log(this.fruitX + " " + this.fruitY);
+
     if(this.fruitX == this.x && this.fruitY == this.y) {
       this.pickFruitLocation();
     }
@@ -112,25 +112,26 @@ function Snake() {
   this.checkCrash = function() {
     for (let i=0; i<this.tail.length; i++) {
       if (this.tail[i].x == this.x  && this.tail[i].y == this.y) {
-        console.log("1");
         this.gameOver();
+        return true;
       }
     }
 
-    if (this.x < 0 || this.x == canvas.width) {
-      console.log("2");
+    if (this.x == -this.size || this.x == canvas.width) {
       this.gameOver();
+      return true;
     }
 
-    if (this.y < 0 || this.y == canvas.height) {
-      console.log("3");
+    if (this.y == -this.size || this.y == canvas.height) {
       this.gameOver();
+      return true;
     }
   }
 /******** ending the game ********/
   this.gameOver = function() {
     //document.write("GAME OVER!");
-    //window.clearInterval(time);
+
+    window.clearInterval(time2);
   }
 
 }
