@@ -27,11 +27,11 @@ snake = new Snake(); // players snake
 
 //AI variables
 snake2 = new Snake(); // ais snake
-populationSize = 1000000;
+populationSize = 100000;
 maxDepth = 4;
 ai = new Ai(populationSize, maxDepth); // population size // maxDepth of each tree
 ai.makeInitPopulation(); // init population size && maxDepth of each tree
-for(let i=0; i<20; i++) {
+for(let i=0; i<5; i++) {
   ai.runSimulation();
 }
 console.log(ai.population);
