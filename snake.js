@@ -99,6 +99,26 @@ function Snake() {
 
     return false;
   }
+/******** choosing random path of the snake (up/right/down/left) ********/
+  this.chooseRandomPath = function() {
+  let random = Math.round(Math.random()*3);
+
+  switch(random) {
+    case 0:
+      this.speedX = this.size;
+      break;
+    case 1:
+      this.speedX = -this.size;
+      break;
+    case 2:
+      this.speedY = this.size;
+      break;
+    case 3:
+      this.speedY = -this.size;
+      break;
+  }
+
+}
 /******** same location as fruit? = eat it ********/
   this.eatFruit = function() {
     if(this.x == this.fruitX && this.y == this.fruitY) {

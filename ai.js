@@ -6,13 +6,41 @@ function Ai(populationSize, maxDepth) {
   //this.currentDirection = 'Up';
 
 
-  this.runEvolution = function() {
-
-  }
   this.makeInitPopulation = function() {
     for(let i=0; i<this.populationSize; i++) {
       this.population[i] = new BinaryTree();
       this.population[i].makeRandomTree(this.maxDepth,this.population[i].root);
+    }
+  }
+  this.runEvolution = function(n) {
+    for(let i=0; i<n; i++) {
+      for(let j=0; j<3; j++) {
+        this.runSimulation();
+      }
+      this.crossPopulation();
+      this.mutatePopulation();
+      this.cleanFitness();
+    }
+
+  }
+
+  this.crossPopulation = function() {
+    for(let i=0; i<this.populationSize/2; i++) {
+      let a = this.chooseIndividualFromPopulation();
+      let b = this.chooseIndividualFromPopulation(a);
+
+
+    }
+
+
+
+  }
+
+
+
+  this.chooseIndividualFromPopulation = function() {
+    for(let i=0; i<this.populationSize; i++) {
+
     }
   }
 
@@ -21,7 +49,7 @@ function Ai(populationSize, maxDepth) {
       this.snake = new Snake()
       this.snake.move();
       this.snake.move();
-      this.snake.speedX += this.snake.size;
+      this.snake.chooseRandomPath();
       this.snake.move();
       this.snake.pickFruitLocation();
 
@@ -37,7 +65,7 @@ function Ai(populationSize, maxDepth) {
         //console.log("move " + move);
         if(move >= 5000) {
           //console.log("too much steps");
-          this.population[i].fitness = 0;
+          this.population[i].fitness = 1;
           break;
         }
         this.population[i].fitness += 0.01;
@@ -80,6 +108,15 @@ function Ai(populationSize, maxDepth) {
     }
   }
 
+  this.sortPopulation = function(a,b) {
+    if(a.fitness < b.fitness)
+      return 1;
+    else if(a.fitness > b.fitness)
+      return -1;
+    else
+      return 0;
+  }
+
   this.stringToFunction = function(string) {
     switch(string) {
       case "dangerUp":
@@ -108,9 +145,6 @@ function Ai(populationSize, maxDepth) {
         return this.fruitLeft();
     }
   }
-
-
-
 /******** looking for danger functions -> if one step ahead returns true ********/
   this.dangerUp = function() {
     if(this.snake.y == 0) {
