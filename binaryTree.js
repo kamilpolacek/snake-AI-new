@@ -44,11 +44,12 @@ function BinaryTree () {
   }
 
   this.chooseFunctionOrTerminal = function() {
-    let random = Math.round(Math.random()*2);
+    let random = Math.round(Math.random()*1);
+
     if(this.root.data === 0) {
       this.root.data = this.chooseFunction();
     }
-    if(random == 1 || random == 2)
+    if(random == 1)
       return this.chooseFunction();
     else {
       return this.chooseTerminal();

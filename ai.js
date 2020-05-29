@@ -17,32 +17,66 @@ function Ai(populationSize, maxDepth) {
       for(let j=0; j<3; j++) {
         this.runSimulation();
       }
+      this.population.sort(this.sortPopulation);
       this.crossPopulation();
-      this.mutatePopulation();
-      this.cleanFitness();
+      //this.mutatePopulation();
+      if(n-1 != i )
+        this.cleanFitness();
     }
 
   }
-
+  // with no parent population you can not do proper branch switching // does it matter? 
   this.crossPopulation = function() {
+    let k=this.populationSize-1;
+
+    
     for(let i=0; i<this.populationSize/2; i++) {
-      let a = this.chooseIndividualFromPopulation();
-      let b = this.chooseIndividualFromPopulation(a);
+      
+      
+      for(let j=0; j<this.population[i].fitness/2; j++) {
 
+        let depth = Math.round(Math.random()*this.maxDepth-1);
+        let a = this.randomBranch(depth, i);
+        let b = this.randomBranch(depth, k);
+        b = a;
+      
+
+
+        k--;
+
+      }
+
+      if(this.population[i].fitness < 0.5)
+        break;
 
     }
 
 
 
   }
+// while we choose to swap only branches in the same depth some trees might not have this depth 
+  this.randomBranch = function(depth, position) {
+    let current = this.population[position].root;
+    for(let i=0; i<=depth; i++) {
 
+      let random = Math.round(Math.random()*1);
+      
+      if(current.leftChild == null || current.rightChild == null) 
+        return current;
+      else if(random == 1)
+        current = current.leftChild;
+      else if(random == 0)
+        current = current.rightChild;
 
+    }
+  }
 
-  this.chooseIndividualFromPopulation = function() {
+  this.cleanFitness = function() {
     for(let i=0; i<this.populationSize; i++) {
-
+      this.population[i].fitness = 0;
     }
   }
+
 
   this.runSimulation = function() {
     for(let i=0; i<this.populationSize; i++) {
