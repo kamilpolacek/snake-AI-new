@@ -1,14 +1,13 @@
-// how often do you want skipping? what is more likely function or terminal?
+// how often do you want nodes skipping? 
 function BinaryTree () {
   this.root = {
-    data : 0,
+    data : 0, // later, if 0, assigned a function
     leftChild : null,
     rightChild : null,
   };
 
   this.fitness = 0;
   this.nodeNumber = 0;
-  this.depth = 0;
   this.nOfNodes = 0;
 
   this.makeRandomTree = function(maxDepth, current) {
@@ -41,6 +40,33 @@ function BinaryTree () {
     return this.makeRandomTree(maxDepth-1, current.leftChild) + this.makeRandomTree(maxDepth-1, current.rightChild);
 
 
+  }
+
+  this.deepCopyTree = function(aCurrent, bCurrent) {
+    
+    if(aCurrent.data == 0) {
+      aCurrent.data = bCurrent.data;
+    }
+    let newNode = {
+      data : 0,
+      leftChild : null,
+      rightChild : null
+    }
+
+    aCurrent.data = bCurrent.data;
+
+    if(bCurrent.leftChild == null && bCurrent.rightChild == null) 
+      return;
+
+    if(bCurrent.leftChild != null && bCurrent.leftChild.data == 1) {
+      aCurrent.leftChild = newNode;
+      this.deepCopyTree(aCurrent.leftChild, bCurrent.leftChild);
+    }
+
+    if(bCurrent.rightChild != null && bCurrent.leftChild.data == 1) {
+      aCurrent.rightChild = newNode;
+      this.deepCopyTree(aCurrent.rightChild, bCurrent.rightChild);
+    }
   }
 
   this.chooseFunctionOrTerminal = function() {

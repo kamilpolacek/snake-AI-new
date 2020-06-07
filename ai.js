@@ -1,3 +1,4 @@
+//n of simulations
 function Ai(populationSize, maxDepth) {
   this.snake;
   this.population = [];
@@ -20,64 +21,55 @@ function Ai(populationSize, maxDepth) {
       this.cleanFitness();
 
       for(let j=0; j<3; j++) {
+        //console.log("simulation starts");
         this.runSimulation();
+        //console.log("simulation " + j + " of " + i +  " finished" );
       }
       this.population.sort(this.sortPopulation);
-      //console.log("run -> " + n " best -> " + this.population[0].fitness);
-      this.chooseParents();
-      this.crossPopulation();
+      console.log("run -> " + i + " best -> " + this.population[0].fitness);
+      //this.chooseParents();
+      this.Evolve();
       //this.mutatePopulation();
-
+      //console.log("crossing population finished");
     }
 
   }
-//change that 333
-  this.chooseParents = function() {
-    for(let i=0; i<333; i++) {
-      this.parents[i] = this.population[i]; 
-    }
-  }
+
   // with no parent population you can not do proper branch switching // does it matter?
-  this.crossPopulation = function() {
-    let k=this.populationSize-1;
+  this.Evolve = function() {
+    //for(let i=0; i<this.populationSize; i++) {
+      // randomly choosing parents from the best 1/3 of the population
+      let span = Math.round(this.populationSize/3);
+
+      let randomP1 = Math.round(Math.random()*span);
+      let randomP2 = Math.round(Math.random()*span);
+      
+      console.log("randomP1 " + randomP1 + " randomP2 " + randomP2);
+
+      this.parents[this.parents.length] = new BinaryTree();
+      this.parents[this.parents.length] = new BinaryTree();
+      let tree = new BinaryTree();
+
+      this.population[1].deepCopyTree(this.parents[this.parents.length-2].root, this.population[1].root);
+      this.population[1].deepCopyTree(this.parents[this.parents.length-1].root, this.population[1].root);
 
 
-    for(let i=0; i<this.populationSize/2; i++) {
+     
 
-      //when fitness too high y run out of space
-      for(let j=1; j<this.population[i].fitness; j++) {
-
-        let depth = Math.round(Math.random()*this.maxDepth-1);
-        let a = this.randomBranch(depth, i);
-        let b = this.randomBranch(depth-1, k);
-        console.log("i = " + i + " k = " + k );
-        k--;
-        console.log(a);
-        console.log(b);
-        let random = Math.round(Math.random()*1);
-        if(b.leftChild == null || b.rightChild == null)
-          continue;
-        if(random == 0)
-          b.leftChild = a;
-        if(random == 1)
-          b.rightChild = a;
-
-
-
-
-      }
-
-
-    }
+    //}
 
 
 
   }
+
+
+
+  
 // while we choose to swap only branches in the same depth some trees might not have this depth
   this.randomBranch = function(depth, position) {
     let current = this.population[position].root;
     for(let i=0; i<=depth; i++) {
-      console.log("random branch");
+      //console.log("random branch");
       let random = Math.round(Math.random()*1);
 
       if(current.leftChild == null || current.rightChild == null) {
@@ -96,7 +88,7 @@ function Ai(populationSize, maxDepth) {
 
   this.cleanFitness = function() {
     for(let i=0; i<this.populationSize; i++) {
-      console.log("sort?");
+      //console.log("sort?");
       this.population[i].fitness = 0;
     }
   }
@@ -104,6 +96,7 @@ function Ai(populationSize, maxDepth) {
 
   this.runSimulation = function() {
     for(let i=0; i<this.populationSize; i++) {
+     // console.log("hi");
       this.snake = new Snake()
       this.snake.move();
       this.snake.move();
@@ -114,6 +107,7 @@ function Ai(populationSize, maxDepth) {
       let move = 0;
       while(!this.snake.checkCrash()) {
         move++
+        //console.log("move n."+ move);
         this.snake.changeDirection(this.chooseDirection(i));
         this.snake.move();
         if(this.snake.eatFruit()){
@@ -139,10 +133,16 @@ function Ai(populationSize, maxDepth) {
 //returning up,right,down,left
   this.chooseDirection = function(position) {
     let current = this.population[position].root;
+    let count = 0;
 
     while(true) {
+      count++;
       if(current.data == "Up" || current.data  == "Right" || current.data  == "Down" || current.data  == "Left")
         return  current.data;
+      
+      //if current.data doesnt 
+      if(current.rightChild == null | current.leftChild == null || count >= 5000)
+        return "nothing :)"
 
       if(this.stringToFunction(current.data))
         current = current.rightChild;

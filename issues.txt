@@ -6,7 +6,6 @@ GAME = html, css, javascript, canvas, genetic programming, /*recursion -> tree s
 
 1.killing itself with just fast key pressing (fixed but shitty ->, if long pressed arrows snake lags -> slow to respond)
 6.game speed increases if fruit is eaten? (nah fuck dat maybe later)
-7. function that translates speedX and speedY to stringDirection => making the whole program more readable?
 8. deactivate arrow affecting page scrolling
 
 UI
@@ -16,24 +15,25 @@ UI
 4. generate random tree with maximum depth <= maxDepth & skip some nodes (GROW METHOD) (done)
 5. functions
 6. HOW TO GO THROUGH THE THREE WHEN PLAYING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?
-
 7. print each runs best
-8. how to switch branches??? node-> next save a
+13. could be the default depth of a tree random ? (each tree would have to have a depth variable) (already is y dumbass)
 
-FUNCTIONS
-1.
 
-UI TESTING!!!!!!!
+8. how to switch branches??? (considering dealing with references) 
+9. how to combine parents into offspring 
+10. how many parents to choose (flexible or hardcoded) (based on what) (start with 1/3)
+12. choosing parents to fuck ()
+11. how many offsprings (flexible or hardcoded) (based on what) (start with initial population size)
+
+
 
 WEB APP & DESIGN
 1. design the shit out of it
 2. multiple devices problem
-
-TO DO
-2.iq test (couse y ar dumb as shit :D)
+3. security -> hide the functions that can be hidden & test those that are not 
 
 
-14.4. -> making functions for ui
-15.4. -> writing functions for ui & testing them
-16.4. -> test run of the best in the initial population  (should i do more than one evaluation and then make an average ?? )
-19.4. -> same (im so fuckn slow)
+FINISh
+1.research and learn the most wanted skill
+
+
