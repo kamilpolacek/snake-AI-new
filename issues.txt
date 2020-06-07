@@ -17,7 +17,8 @@ UI
 5. functions
 6. HOW TO GO THROUGH THE THREE WHEN PLAYING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?
 
-7.will ui start with snake already moving?
+7. print each runs best
+8. how to switch branches??? node-> next save a
 
 FUNCTIONS
 1.

@@ -1,6 +1,7 @@
 function Ai(populationSize, maxDepth) {
   this.snake;
   this.population = [];
+  this.parents = [];
   this.populationSize = populationSize;
   this.maxDepth = maxDepth;
   //this.currentDirection = 'Up';
@@ -12,67 +13,90 @@ function Ai(populationSize, maxDepth) {
       this.population[i].makeRandomTree(this.maxDepth,this.population[i].root);
     }
   }
+
   this.runEvolution = function(n) {
     for(let i=0; i<n; i++) {
+
+      this.cleanFitness();
+
       for(let j=0; j<3; j++) {
         this.runSimulation();
       }
       this.population.sort(this.sortPopulation);
+      //console.log("run -> " + n " best -> " + this.population[0].fitness);
+      this.chooseParents();
       this.crossPopulation();
       //this.mutatePopulation();
-      if(n-1 != i )
-        this.cleanFitness();
+
     }
 
   }
-  // with no parent population you can not do proper branch switching // does it matter? 
+//change that 333
+  this.chooseParents = function() {
+    for(let i=0; i<333; i++) {
+      this.parents[i] = this.population[i]; 
+    }
+  }
+  // with no parent population you can not do proper branch switching // does it matter?
   this.crossPopulation = function() {
     let k=this.populationSize-1;
 
-    
+
     for(let i=0; i<this.populationSize/2; i++) {
-      
-      
-      for(let j=0; j<this.population[i].fitness/2; j++) {
+
+      //when fitness too high y run out of space
+      for(let j=1; j<this.population[i].fitness; j++) {
 
         let depth = Math.round(Math.random()*this.maxDepth-1);
         let a = this.randomBranch(depth, i);
-        let b = this.randomBranch(depth, k);
-        b = a;
-      
-
-
+        let b = this.randomBranch(depth-1, k);
+        console.log("i = " + i + " k = " + k );
         k--;
+        console.log(a);
+        console.log(b);
+        let random = Math.round(Math.random()*1);
+        if(b.leftChild == null || b.rightChild == null)
+          continue;
+        if(random == 0)
+          b.leftChild = a;
+        if(random == 1)
+          b.rightChild = a;
+
+
+
 
       }
 
-      if(this.population[i].fitness < 0.5)
-        break;
 
     }
 
 
 
   }
-// while we choose to swap only branches in the same depth some trees might not have this depth 
+// while we choose to swap only branches in the same depth some trees might not have this depth
   this.randomBranch = function(depth, position) {
     let current = this.population[position].root;
     for(let i=0; i<=depth; i++) {
-
+      console.log("random branch");
       let random = Math.round(Math.random()*1);
-      
-      if(current.leftChild == null || current.rightChild == null) 
+
+      if(current.leftChild == null || current.rightChild == null) {
+//        console.log(current);
         return current;
+      }
       else if(random == 1)
         current = current.leftChild;
       else if(random == 0)
         current = current.rightChild;
 
     }
+
+    return current;
   }
 
   this.cleanFitness = function() {
     for(let i=0; i<this.populationSize; i++) {
+      console.log("sort?");
       this.population[i].fitness = 0;
     }
   }
@@ -99,7 +123,7 @@ function Ai(populationSize, maxDepth) {
         //console.log("move " + move);
         if(move >= 5000) {
           //console.log("too much steps");
-          this.population[i].fitness = 1;
+          this.population[i].fitness = -1;
           break;
         }
         this.population[i].fitness += 0.01;
@@ -131,7 +155,7 @@ function Ai(populationSize, maxDepth) {
     let current = this.population[position].root;
 
     while(true) {
-      console.log( ">>> " +current.data);
+      //console.log( ">>> " +current.data);
       if(current.data == "Up" || current.data  == "Right" || current.data  == "Down" || current.data  == "Left")
         return  current.data;
 
