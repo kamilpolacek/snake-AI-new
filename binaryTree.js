@@ -1,24 +1,27 @@
-// how often do you want nodes skipping? 
 function BinaryTree () {
   this.root = {
-    data : 0, // later, if 0, assigned a function
+    data : 0, // later, if 0, assigned a function (root recognition)
     leftChild : null,
     rightChild : null,
   };
 
   this.fitness = 0;
-  this.nodeNumber = 0;
-  this.nOfNodes = 0;
-
+  this.depth = 0;
+  this.nOfNodes = 1;
+  
+  
   this.makeRandomTree = function(maxDepth, current) {
-    if(maxDepth == 0) {
+    if(maxDepth == 1) {
       current.data = this.chooseTerminal();
       return;
     }
 
-    if( (Math.round(Math.random()*15)) == 15 && current != this.root) {
+    /*if( (Math.round(Math.random()*15)) == 15 && current != this.root) {
       current.data = this.chooseTerminal();
       //console.log("skipped");
+      return;
+    }*/
+    if(current.data == 'Up' || current.data == 'Right' || current.data == 'Down' || current.data == 'Left' ) {
       return;
     }
 
@@ -44,9 +47,6 @@ function BinaryTree () {
 
   this.deepCopyTree = function(aCurrent, bCurrent) {
     
-    if(aCurrent.data == 0) {
-      aCurrent.data = bCurrent.data;
-    }
     let newNode = {
       data : 0,
       leftChild : null,
@@ -58,12 +58,18 @@ function BinaryTree () {
     if(bCurrent.leftChild == null && bCurrent.rightChild == null) 
       return;
 
-    if(bCurrent.leftChild != null && bCurrent.leftChild.data == 1) {
+    if(bCurrent.leftChild != null) {
       aCurrent.leftChild = newNode;
       this.deepCopyTree(aCurrent.leftChild, bCurrent.leftChild);
     }
 
-    if(bCurrent.rightChild != null && bCurrent.leftChild.data == 1) {
+    newNode = {
+      data : 0,
+      leftChild : null,
+      rightChild : null
+    }
+
+    if(bCurrent.rightChild != null) {
       aCurrent.rightChild = newNode;
       this.deepCopyTree(aCurrent.rightChild, bCurrent.rightChild);
     }

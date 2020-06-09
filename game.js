@@ -28,8 +28,8 @@ snake = new Snake(); // players snake
 //AI variables
 snake2 = new Snake(); // ais snake
 populationSize = 2;
-maxDepth = 5;
-ai = new Ai(populationSize, maxDepth-1); // population size // maxDepth of each tree
+maxDepth = 5; //  number of nodes 2^5 - 1 
+ai = new Ai(populationSize, maxDepth); 
 ai.makeInitPopulation(); // init population size && maxDepth of each tree
 ai.Evolve();
 
@@ -42,9 +42,8 @@ ai.Evolve();
 
 ai.population.sort(ai.sortPopulation);
 console.log("simulation over");
-console.log(ai.parents[0]);
-console.log(ai.parents[1]);
 console.log(ai.population);
+console.log(ai.offsprings);
 
 ai.snake = snake2;
 

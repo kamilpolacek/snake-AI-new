@@ -2,7 +2,7 @@
 function Ai(populationSize, maxDepth) {
   this.snake;
   this.population = [];
-  this.parents = [];
+  this.offsprings = [];
   this.populationSize = populationSize;
   this.maxDepth = maxDepth;
   //this.currentDirection = 'Up';
@@ -22,12 +22,12 @@ function Ai(populationSize, maxDepth) {
 
       for(let j=0; j<3; j++) {
         //console.log("simulation starts");
-        this.runSimulation();
+        this.runSimulation(); // runs simulation of the game assign fitness based on success 
         //console.log("simulation " + j + " of " + i +  " finished" );
       }
       this.population.sort(this.sortPopulation);
       console.log("run -> " + i + " best -> " + this.population[0].fitness);
-      //this.chooseParents();
+
       this.Evolve();
       //this.mutatePopulation();
       //console.log("crossing population finished");
@@ -35,23 +35,42 @@ function Ai(populationSize, maxDepth) {
 
   }
 
-  // with no parent population you can not do proper branch switching // does it matter?
+  
   this.Evolve = function() {
     //for(let i=0; i<this.populationSize; i++) {
       // randomly choosing parents from the best 1/3 of the population
       let span = Math.round(this.populationSize/3);
 
+      
       let randomP1 = Math.round(Math.random()*span);
-      let randomP2 = Math.round(Math.random()*span);
+      let randomP2 = Math.round(Math.random()*span); //if same numbers cycles appears
+      randomP1 = 0;
+      randomP2 = 1;
       
       console.log("randomP1 " + randomP1 + " randomP2 " + randomP2);
 
-      this.parents[this.parents.length] = new BinaryTree();
-      this.parents[this.parents.length] = new BinaryTree();
-      let tree = new BinaryTree();
+      this.offsprings[this.offsprings.length] = new BinaryTree();
+      this.offsprings[this.offsprings.length] = new BinaryTree();
 
-      this.population[1].deepCopyTree(this.parents[this.parents.length-2].root, this.population[1].root);
-      this.population[1].deepCopyTree(this.parents[this.parents.length-1].root, this.population[1].root);
+      let a = this.randomBranch(randomP1); // might be the same number;
+      console.log(a);
+      let b = this.randomBranch(randomP2);
+      console.log(b);
+      
+
+      let random = Math.round(Math.random()*1);
+      console.log("random " + random);
+      if(random = 0)
+        a.leftChild = b 
+      if(random = 1) 
+        a.rightChild = b 
+      
+      this.population[randomP1].deepCopyTree(this.offsprings[this.offsprings.length-2].root, this.population[randomP1].root);
+      this.offsprings[this.offsprings.length-2].nOfNodes = this.population[randomP1].nOfNodes;
+
+
+      //this.population[randomP2].deepCopyTree(this.offsprings[this.offsprings.length-1].root, this.population[randomP2].root);
+      //this.offsprings[this.offsprings.length-1].nOfNodes = this.population[randomP2].nOfNodes;
 
 
      
@@ -65,12 +84,17 @@ function Ai(populationSize, maxDepth) {
 
 
   
-// while we choose to swap only branches in the same depth some trees might not have this depth
-  this.randomBranch = function(depth, position) {
+
+  this.randomBranch = function(position) {
     let current = this.population[position].root;
-    for(let i=0; i<=depth; i++) {
+    let maxLocalDepth = Math.floor(Math.log(this.population[position].nOfNodes+1)/Math.log(2));  //counting the max depth based on number of nodes in a tree
+    console.log(maxLocalDepth);
+    let depth = Math.round(Math.random()*(maxLocalDepth-1)); 
+    console.log("depth " +  depth);
+    for(let i=0; i<depth-1; i++) {
       //console.log("random branch");
       let random = Math.round(Math.random()*1);
+
 
       if(current.leftChild == null || current.rightChild == null) {
 //        console.log(current);
@@ -130,7 +154,7 @@ function Ai(populationSize, maxDepth) {
     }
 
   }
-//returning up,right,down,left
+//going through tree returning up, right, down or left
   this.chooseDirection = function(position) {
     let current = this.population[position].root;
     let count = 0;

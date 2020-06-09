@@ -1,4 +1,5 @@
 GAME = html, css, javascript, canvas, genetic programming, /*recursion -> tree structure + backtracking needed*/, binary tree, github, atom
+
 2.not eating the second apple? (fixed) (laziest way possible)
 3.apples appearing inside the snake? (fixed)
 4.only arrow key-pressing should get through! (fixed)
