@@ -7,6 +7,9 @@ function Ai(populationSize, maxDepth) {
   this.maxDepth = maxDepth;
   //this.currentDirection = 'Up';
 
+  this.randomN1;
+  this.randomN2;
+
 
   this.makeInitPopulation = function() {
     for(let i=0; i<this.populationSize; i++) {
@@ -22,7 +25,7 @@ function Ai(populationSize, maxDepth) {
 
       for(let j=0; j<3; j++) {
         //console.log("simulation starts");
-        this.runSimulation(); // runs simulation of the game assign fitness based on success 
+        this.runSimulation(j+1); // runs simulation of the game assign fitness based on success 
         //console.log("simulation " + j + " of " + i +  " finished" );
       }
       this.population.sort(this.sortPopulation);
@@ -31,83 +34,154 @@ function Ai(populationSize, maxDepth) {
       this.Evolve();
       //this.mutatePopulation();
       //console.log("crossing population finished");
+      if(i == n-1) {
+        for(let j=0; j<3; j++) {
+          //console.log("simulation starts");
+          this.runSimulation(); // runs simulation of the game assign fitness based on success 
+          //console.log("simulation " + j + " of " + i +  " finished" );
+        }
+        this.population.sort(this.sortPopulation);
+
+      }
     }
 
   }
 
   
   this.Evolve = function() {
-    //for(let i=0; i<this.populationSize; i++) {
+    let range = Math.round(this.populationSize/3);
+    let size = 0;
+    for(let i=0; i<this.populationSize; i++) {
       // randomly choosing parents from the best 1/3 of the population
-      let span = Math.round(this.populationSize/3);
 
       
-      let randomP1 = Math.round(Math.random()*span);
-      let randomP2 = Math.round(Math.random()*span); //if same numbers cycles appears
-      randomP1 = 0;
-      randomP2 = 1;
+      this.chooseRandomNumbers(range);
+
+      this.offsprings[size] = new BinaryTree();
+ 
+      let a,b,c;
+      a = this.randomBranch(this.randomN1,1); // might be the same number;
+      //console.log(a);
+      b = this.randomBranch(this.randomN2,2);
+      //console.log(b);
+
       
-      console.log("randomP1 " + randomP1 + " randomP2 " + randomP2);
-
-      this.offsprings[this.offsprings.length] = new BinaryTree();
-      this.offsprings[this.offsprings.length] = new BinaryTree();
-
-      let a = this.randomBranch(randomP1); // might be the same number;
-      console.log(a);
-      let b = this.randomBranch(randomP2);
-      console.log(b);
-      
-
       let random = Math.round(Math.random()*1);
-      console.log("random " + random);
-      if(random = 0)
-        a.leftChild = b 
-      if(random = 1) 
-        a.rightChild = b 
+      //console.log("random " + random);
       
-      this.population[randomP1].deepCopyTree(this.offsprings[this.offsprings.length-2].root, this.population[randomP1].root);
-      this.offsprings[this.offsprings.length-2].nOfNodes = this.population[randomP1].nOfNodes;
+      c = this.switchBranches(a,b,c,random,1);
+     
+      
+      this.population[this.randomN1].deepCopyTree(this.offsprings[size].root, this.population[this.randomN1].root);
+      
+      this.switchBranches(a,b,c,random,2)
+      
+      size++;
 
+     
 
       //this.population[randomP2].deepCopyTree(this.offsprings[this.offsprings.length-1].root, this.population[randomP2].root);
       //this.offsprings[this.offsprings.length-1].nOfNodes = this.population[randomP2].nOfNodes;
 
+    }
 
-     
-
-    //}
+   this.establishNewPopulation();
 
 
 
   }
 
 
-
+  this.establishNewPopulation = function() {
+    //console.log(this.population[0]);
+    //console.log(this.offsprings.length);
+    // maybe change??
+    for(let i=0; i<this.populationSize; i++) { 
+      //console.log("hi");
+      this.population[i] = this.offsprings[i];
+    }
+    //console.log(this.population[0]);
+  }
   
+  this.chooseRandomNumbers = function(range) {
+    this.randomN1 = Math.round(Math.random()*range);
+    this.randomN2 = Math.round(Math.random()*range);
 
-  this.randomBranch = function(position) {
+    if(this.randomN1 == this.randomN2)
+      this.chooseRandomNumbers(range);
+  }
+  this.randomBranch = function(position,branch) {
     let current = this.population[position].root;
-    let maxLocalDepth = Math.floor(Math.log(this.population[position].nOfNodes+1)/Math.log(2));  //counting the max depth based on number of nodes in a tree
-    console.log(maxLocalDepth);
-    let depth = Math.round(Math.random()*(maxLocalDepth-1)); 
-    console.log("depth " +  depth);
-    for(let i=0; i<depth-1; i++) {
-      //console.log("random branch");
+    let depth;
+
+    if(branch == 1) 
+      depth = Math.round(Math.random()*(this.maxDepth-1));
+    if(branch == 2) {
+      depth = Math.ceil(Math.random()*(this.maxDepth-1)); 
+      //console.log("depth in second branch " +depth );
+    }
+
+    for(let i=0; i<depth; i++) {
       let random = Math.round(Math.random()*1);
 
-
-      if(current.leftChild == null || current.rightChild == null) {
-//        console.log(current);
+      if(branch == 1 && (current.leftChild.leftChild == null || current.leftChild.rightChild == null ||
+         current.rightChild.leftChild == null || current.rightChild.rightChild == null) ) 
         return current;
-      }
-      else if(random == 1)
+      if(branch == 2 && (current.leftChild == null || current.rightChild == null) ) 
+        return current;
+      
+      
+      if(random == 1)
         current = current.leftChild;
-      else if(random == 0)
+      if(random == 0)
         current = current.rightChild;
 
     }
 
     return current;
+  }
+
+  this.switchBranches = function(a, b, c, random, run) {
+    if(run == 1) {
+      if(random == 0) {
+        //console.log("pred:");
+        c = a.leftChild;
+
+        //console.log(a.leftChild);
+
+        a.leftChild = b; 
+        //console.log(a.leftChild);
+        return c;
+      }
+      if(random == 1) {
+        //console.log("pred:");
+        c = a.rightChild;
+        //console.log(a.rightChild);
+ 
+        a.rightChild = b; 
+        //console.log(a.rightChild);
+        return c;
+
+      }
+    }
+
+    if(run == 2) {
+      if(random == 0) {
+        //console.log("po:");
+        a.leftChild = c;
+
+        //console.log(a.leftChild);
+
+      }
+      if(random == 1) {
+        //console.log("po:");
+        a.rightChild = c;
+        
+        //console.log(a.rightChild);
+
+      }
+    }
+
   }
 
   this.cleanFitness = function() {
@@ -118,7 +192,7 @@ function Ai(populationSize, maxDepth) {
   }
 
 
-  this.runSimulation = function() {
+  this.runSimulation = function(run) {
     for(let i=0; i<this.populationSize; i++) {
      // console.log("hi");
       this.snake = new Snake()
@@ -150,6 +224,7 @@ function Ai(populationSize, maxDepth) {
 
     //  console.log(this.population[i]);
       //console.log("konec " + i );
+      this.population[i].fitness = this.population[i].fitness/run;
       this.population[i].fitness = Math.round(parseFloat(this.population[i].fitness)*100)/100;
     }
 

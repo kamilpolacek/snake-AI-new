@@ -73,6 +73,8 @@ function BinaryTree () {
       aCurrent.rightChild = newNode;
       this.deepCopyTree(aCurrent.rightChild, bCurrent.rightChild);
     }
+    
+    
   }
 
   this.chooseFunctionOrTerminal = function() {

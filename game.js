@@ -27,15 +27,15 @@ snake = new Snake(); // players snake
 
 //AI variables
 snake2 = new Snake(); // ais snake
-populationSize = 2;
-maxDepth = 5; //  number of nodes 2^5 - 1 
+populationSize = 10000;
+maxDepth = 5; //  number of nodes = 2^maxDepth - 1 
 ai = new Ai(populationSize, maxDepth); 
 ai.makeInitPopulation(); // init population size && maxDepth of each tree
-ai.Evolve();
+//ai.Evolve();
 
 
 
-//ai.runEvolution(20);
+ai.runEvolution(40);
 /*for(let i=0; i<3; i++) {
   ai.runSimulation();
 }*/
@@ -43,7 +43,7 @@ ai.Evolve();
 ai.population.sort(ai.sortPopulation);
 console.log("simulation over");
 console.log(ai.population);
-console.log(ai.offsprings);
+//console.log(ai.offsprings);
 
 ai.snake = snake2;
 
@@ -74,7 +74,7 @@ ai.snake = snake2;
   }, speed);
 }());
 /******** main function for the UI********/
-/*(function setup() {
+(function setup() {
   //initial logic and game drawing
   snake2.move();
   snake2.move(); // dealing with snakes tail (twice)

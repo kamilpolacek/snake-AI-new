@@ -27,6 +27,7 @@ UI
 11. how many offsprings (flexible or hardcoded) (based on what) (start with initial population size)
 
 
+making new object functions ?
 
 WEB APP & DESIGN
 1. design the shit out of it
