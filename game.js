@@ -27,9 +27,9 @@ var time2 = 0;
 var k=0;
 //AI variables
 snake2 = new Snake(); // ais snake
-EvolutionRepetition = 45;
+EvolutionRepetition = 60;
 populationSize = 1000;
-maxDepth = 5; //  number of nodes = 2^maxDepth - 1 
+maxDepth = 6; //  number of nodes = 2^maxDepth - 1 
 ai = new Ai(populationSize, maxDepth); 
 ai.makeInitPopulation(); // init population size && maxDepth of each tree
 //ai.Evolve();

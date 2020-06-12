@@ -29,14 +29,16 @@ function Ai(populationSize, maxDepth) {
       this.Evolve();
       //this.mutatePopulation();
     
-      if(i == n-1) 
+      if(i == n-1) {
+        this.cleanFitness();
         this.runSimulation();
+      }
         
     }
 
   }
 
-  //next time write more play less // choose 
+  //next time write more play less // choose trees based on fitness and change functions for controllign the snkae
   this.Evolve = function() {
     let range = Math.round(this.populationSize/3);
   
