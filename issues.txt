@@ -27,7 +27,13 @@ UI
 11. how many offsprings (flexible or hardcoded) (based on what) (start with initial population size)
 
 
-making new object functions ?
+IDEADS
+1.making new object -> functions ?
+2.new function for snake controlling -> nextstepdeath? & look into future concept ?\
+3.run a test initiating variables like size of population randomly (could take whole day maybe even couple)
+4.running couple of evolutions saving best ten snakes then run one more with just this ten from each evolution\
+5.flexible populationSize
+
 
 WEB APP & DESIGN
 1. design the shit out of it

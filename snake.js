@@ -147,11 +147,36 @@ function Snake() {
       return true;
     }
   }
+
+  this.checkCrash2 = function() {
+    for (let i=0; i<this.tail.length; i++) {
+      if (this.tail[i].x == this.x  && this.tail[i].y == this.y) {
+        this.gameOver();
+        console.log("1");
+        return true;
+      }
+    }
+
+    if (this.x == -this.size || this.x == canvas.width) {
+      this.gameOver();
+      console.log("2");
+      return true;
+    }
+
+    if (this.y == -this.size || this.y == canvas.height) {
+      this.gameOver();
+      console.log("3");
+      return true;
+    }
+  }
 /******** ending the game ********/
   this.gameOver = function() {
-    //document.write("GAME OVER!");
-
-    window.clearInterval(time2);
+   
+    if(time2 != 0 || time != 0)  {// avoids slowing down simulation process 
+      window.clearInterval(time2);
+      console.log(k);
+    }
   }
+
 
 }

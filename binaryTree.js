@@ -84,9 +84,9 @@ function BinaryTree () {
       this.root.data = this.chooseFunction();
     }
     if(random == 1)
-      return this.chooseFunction();
-    else {
       return this.chooseTerminal();
+    else {
+      return this.chooseFunction();
     }
 
   }

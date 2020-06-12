@@ -1,14 +1,12 @@
-//n of simulations
+//n of simulations, range to pick from
 function Ai(populationSize, maxDepth) {
   this.snake;
   this.population = [];
   this.offsprings = [];
   this.populationSize = populationSize;
   this.maxDepth = maxDepth;
-  //this.currentDirection = 'Up';
+  this.runSimulationN = 3;
 
-  this.randomN1;
-  this.randomN2;
 
 
   this.makeInitPopulation = function() {
@@ -23,26 +21,17 @@ function Ai(populationSize, maxDepth) {
 
       this.cleanFitness();
 
-      for(let j=0; j<3; j++) {
-        //console.log("simulation starts");
-        this.runSimulation(j+1); // runs simulation of the game assign fitness based on success 
-        //console.log("simulation " + j + " of " + i +  " finished" );
-      }
+      this.runSimulation(); 
+
       this.population.sort(this.sortPopulation);
       console.log("run -> " + i + " best -> " + this.population[0].fitness);
 
       this.Evolve();
       //this.mutatePopulation();
-      //console.log("crossing population finished");
-      if(i == n-1) {
-        for(let j=0; j<3; j++) {
-          //console.log("simulation starts");
-          this.runSimulation(); // runs simulation of the game assign fitness based on success 
-          //console.log("simulation " + j + " of " + i +  " finished" );
-        }
-        this.population.sort(this.sortPopulation);
-
-      }
+    
+      if(i == n-1) 
+        this.runSimulation();
+        
     }
 
   }
@@ -53,45 +42,83 @@ function Ai(populationSize, maxDepth) {
     let size = 0;
     for(let i=0; i<this.populationSize; i++) {
       // randomly choosing parents from the best 1/3 of the population
+      let randomN1=Math.round(Math.random()*range);
+      let randomN2=Math.round(Math.random()*range);
 
-      
-      this.chooseRandomNumbers(range);
+      if(randomN1 == randomN2) {
+        i--;
+        continue;
+      }
 
       this.offsprings[size] = new BinaryTree();
- 
+      
       let a,b,c;
-      a = this.randomBranch(this.randomN1,1); // might be the same number;
-      //console.log(a);
-      b = this.randomBranch(this.randomN2,2);
-      //console.log(b);
-
-      
-      let random = Math.round(Math.random()*1);
-      //console.log("random " + random);
-      
+      a = this.randomBranch(randomN1,1); //random might not be necessary
+      b = this.randomBranch(randomN2,2);
+     
+      let random = Math.round(Math.random()*1);  
       c = this.switchBranches(a,b,c,random,1);
      
       
-      this.population[this.randomN1].deepCopyTree(this.offsprings[size].root, this.population[this.randomN1].root);
+      this.population[randomN1].deepCopyTree(this.offsprings[size].root, this.population[randomN1].root);
       
       this.switchBranches(a,b,c,random,2)
       
       size++;
 
-     
-
-      //this.population[randomP2].deepCopyTree(this.offsprings[this.offsprings.length-1].root, this.population[randomP2].root);
-      //this.offsprings[this.offsprings.length-1].nOfNodes = this.population[randomP2].nOfNodes;
 
     }
 
    this.establishNewPopulation();
-
-
-
+   
+   
+   
   }
 
+  this.runSimulation = function() {
+    //console.log(this.runSimulationN);
+    for(let i=1; i<this.runSimulationN+1; i++) {
+      for(let j=0; j<this.populationSize; j++) {
+      // console.log("hi");
+        this.snake = new Snake();
+        this.snake.move();
+        this.snake.move();
+        this.snake.chooseRandomPath();
+        this.snake.move();
+        this.snake.pickFruitLocation();
 
+        let move = 0;
+        while(!this.snake.checkCrash()) {
+          move++
+          //console.log("move n."+ move);
+          this.snake.changeDirection(this.chooseDirection(j));
+          this.snake.move();
+          if(this.snake.eatFruit()){
+            this.snake.pickFruitLocation();
+            this.population[j].fitness += 1;
+          }
+          if(move >= 10000) {
+            //console.log("too much steps");
+            this.population[j].fitness = 0;
+            
+            break;
+          }
+          //console.log("move " + move);
+          //this.population[j].fitness += 0.01;
+
+        }
+        
+        
+      //  console.log(this.population[i]);
+        //console.log("konec " + i );
+        //this.population[j].fitness = this.population[j].fitness/i;
+        //this.population[j].fitness = Math.round(parseFloat(this.population[j].fitness)*100)/100;
+      }
+      
+    }
+  }
+  
+  
   this.establishNewPopulation = function() {
     //console.log(this.population[0]);
     //console.log(this.offsprings.length);
@@ -103,19 +130,14 @@ function Ai(populationSize, maxDepth) {
     //console.log(this.population[0]);
   }
   
-  this.chooseRandomNumbers = function(range) {
-    this.randomN1 = Math.round(Math.random()*range);
-    this.randomN2 = Math.round(Math.random()*range);
 
-    if(this.randomN1 == this.randomN2)
-      this.chooseRandomNumbers(range);
-  }
   this.randomBranch = function(position,branch) {
     let current = this.population[position].root;
     let depth;
-
+    
     if(branch == 1) 
       depth = Math.round(Math.random()*(this.maxDepth-1));
+      //console.log("depth in first branch " +depth );
     if(branch == 2) {
       depth = Math.ceil(Math.random()*(this.maxDepth-1)); 
       //console.log("depth in second branch " +depth );
@@ -144,22 +166,17 @@ function Ai(populationSize, maxDepth) {
   this.switchBranches = function(a, b, c, random, run) {
     if(run == 1) {
       if(random == 0) {
-        //console.log("pred:");
+      
         c = a.leftChild;
-
-        //console.log(a.leftChild);
-
         a.leftChild = b; 
-        //console.log(a.leftChild);
+      
         return c;
       }
       if(random == 1) {
-        //console.log("pred:");
+    
         c = a.rightChild;
-        //console.log(a.rightChild);
- 
         a.rightChild = b; 
-        //console.log(a.rightChild);
+    
         return c;
 
       }
@@ -167,18 +184,10 @@ function Ai(populationSize, maxDepth) {
 
     if(run == 2) {
       if(random == 0) {
-        //console.log("po:");
         a.leftChild = c;
-
-        //console.log(a.leftChild);
-
       }
       if(random == 1) {
-        //console.log("po:");
         a.rightChild = c;
-        
-        //console.log(a.rightChild);
-
       }
     }
 
@@ -192,55 +201,17 @@ function Ai(populationSize, maxDepth) {
   }
 
 
-  this.runSimulation = function(run) {
-    for(let i=0; i<this.populationSize; i++) {
-     // console.log("hi");
-      this.snake = new Snake()
-      this.snake.move();
-      this.snake.move();
-      this.snake.chooseRandomPath();
-      this.snake.move();
-      this.snake.pickFruitLocation();
-
-      let move = 0;
-      while(!this.snake.checkCrash()) {
-        move++
-        //console.log("move n."+ move);
-        this.snake.changeDirection(this.chooseDirection(i));
-        this.snake.move();
-        if(this.snake.eatFruit()){
-          this.snake.pickFruitLocation();
-          this.population[i].fitness += 1;
-        }
-        //console.log("move " + move);
-        if(move >= 5000) {
-          //console.log("too much steps");
-          this.population[i].fitness = -1;
-          break;
-        }
-        this.population[i].fitness += 0.01;
-
-      }
-
-    //  console.log(this.population[i]);
-      //console.log("konec " + i );
-      this.population[i].fitness = this.population[i].fitness/run;
-      this.population[i].fitness = Math.round(parseFloat(this.population[i].fitness)*100)/100;
-    }
-
-  }
+  
 //going through tree returning up, right, down or left
   this.chooseDirection = function(position) {
     let current = this.population[position].root;
-    let count = 0;
 
     while(true) {
-      count++;
       if(current.data == "Up" || current.data  == "Right" || current.data  == "Down" || current.data  == "Left")
         return  current.data;
       
       //if current.data doesnt 
-      if(current.rightChild == null | current.leftChild == null || count >= 5000)
+      if(current.rightChild == null | current.leftChild == null)
         return "nothing :)"
 
       if(this.stringToFunction(current.data))

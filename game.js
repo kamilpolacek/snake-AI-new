@@ -1,6 +1,6 @@
 //VARIABLES TO CONSIDER
 //how often do you skip nodes(or branch depends on position) entirely when creating decision trees?  currently chance for skipping is 6%
-//when creating tree what is the chance that node will be function or terminal? currenty 50/50
+//when creating tree what is the chance that node will be function or terminal? currenty 50%
 //init population size
 //maximal depth of trees
 
@@ -24,10 +24,10 @@ var time = 0; // for ending the setInterval
 var start = false; // true if player started started
 var time2 = 0;
 snake = new Snake(); // players snake
-
+var k=0;
 //AI variables
 snake2 = new Snake(); // ais snake
-populationSize = 10000;
+populationSize = 3000;
 maxDepth = 5; //  number of nodes = 2^maxDepth - 1 
 ai = new Ai(populationSize, maxDepth); 
 ai.makeInitPopulation(); // init population size && maxDepth of each tree
@@ -35,7 +35,7 @@ ai.makeInitPopulation(); // init population size && maxDepth of each tree
 
 
 
-ai.runEvolution(40);
+ai.runEvolution(55);
 /*for(let i=0; i<3; i++) {
   ai.runSimulation();
 }*/
@@ -44,12 +44,12 @@ ai.population.sort(ai.sortPopulation);
 console.log("simulation over");
 console.log(ai.population);
 //console.log(ai.offsprings);
-
+//ai.runSimulation2();
 ai.snake = snake2;
 
 
 /******** main function for the player ********/
-/*(function setup() {
+(function setup() {
 
   //initial logic and game drawing
   snake.move();
@@ -74,6 +74,7 @@ ai.snake = snake2;
   }, speed);
 }());
 /******** main function for the UI********/
+
 (function setup() {
   //initial logic and game drawing
   snake2.move();
@@ -91,13 +92,14 @@ ai.snake = snake2;
       }
 
       snake2.createFruit(ctx2);
-      snake2.changeDirection(ai.chooseDirection2(0));
+      snake2.changeDirection(ai.chooseDirection(0));
       snake2.move();
       snake2.create(ctx2);
-      snake2.checkCrash(time2);
-
-  }, speed);
+      snake2.checkCrash2(time2);
+      k++;
+  }, speed/3);
 }());
+console.log("moves " +k);
 /******** listens for keyboard input ********/
 window.addEventListener('keydown', ((evt) => {
   var direction = evt.key.replace('Arrow', '');
