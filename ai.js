@@ -36,36 +36,34 @@ function Ai(populationSize, maxDepth) {
 
   }
 
-  
+  //next time write more play less // choose 
   this.Evolve = function() {
     let range = Math.round(this.populationSize/3);
-    let size = 0;
+  
     for(let i=0; i<this.populationSize; i++) {
       // randomly choosing parents from the best 1/3 of the population
-      let randomN1=Math.round(Math.random()*range);
-      let randomN2=Math.round(Math.random()*range);
+      let randomTree1=Math.round(Math.random()*range);
+      let randomTree2=Math.round(Math.random()*range);
 
-      if(randomN1 == randomN2) {
+      if(randomTree1 == randomTree2) {
         i--;
         continue;
       }
 
-      this.offsprings[size] = new BinaryTree();
+      this.offsprings[i] = new BinaryTree();
       
       let a,b,c;
-      a = this.randomBranch(randomN1,1); //random might not be necessary
-      b = this.randomBranch(randomN2,2);
+      a = this.randomBranch(randomTree1,1); //random might not be necessary
+      b = this.randomBranch(randomTree2,2);
      
       let random = Math.round(Math.random()*1);  
       c = this.switchBranches(a,b,c,random,1);
      
       
-      this.population[randomN1].deepCopyTree(this.offsprings[size].root, this.population[randomN1].root);
+      this.population[randomTree1].deepCopyTree(this.offsprings[i].root, this.population[randomTree1].root);
       
       this.switchBranches(a,b,c,random,2)
-      
-      size++;
-
+  
 
     }
 
@@ -97,10 +95,8 @@ function Ai(populationSize, maxDepth) {
             this.snake.pickFruitLocation();
             this.population[j].fitness += 1;
           }
-          if(move >= 10000) {
-            //console.log("too much steps");
+          if( (move >= 500 && this.population[j].fitness < 2) || move > 100000) { 
             this.population[j].fitness = 0;
-            
             break;
           }
           //console.log("move " + move);
@@ -159,6 +155,7 @@ function Ai(populationSize, maxDepth) {
         current = current.rightChild;
 
     }
+    
 
     return current;
   }

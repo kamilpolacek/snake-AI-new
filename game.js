@@ -17,17 +17,18 @@ const ctx2 = canvas2.getContext('2d');
 canvas.width = canvas.height = canvas2.width = canvas2.height = 600;
 
 //game variables
+snake = new Snake(); // players snake
 const size = 20; // size of snake pieces & fruits
 const speed = 120; // speed of the game
 var commands = 0; // counts commands from keyboard -> only one per interval allowed
 var time = 0; // for ending the setInterval
 var start = false; // true if player started started
 var time2 = 0;
-snake = new Snake(); // players snake
 var k=0;
 //AI variables
 snake2 = new Snake(); // ais snake
-populationSize = 3000;
+EvolutionRepetition = 45;
+populationSize = 1000;
 maxDepth = 5; //  number of nodes = 2^maxDepth - 1 
 ai = new Ai(populationSize, maxDepth); 
 ai.makeInitPopulation(); // init population size && maxDepth of each tree
@@ -35,7 +36,7 @@ ai.makeInitPopulation(); // init population size && maxDepth of each tree
 
 
 
-ai.runEvolution(55);
+ai.runEvolution(EvolutionRepetition);
 /*for(let i=0; i<3; i++) {
   ai.runSimulation();
 }*/
@@ -73,7 +74,7 @@ ai.snake = snake2;
     }
   }, speed);
 }());
-/******** main function for the UI********/
+/******** main function for the AI********/
 
 (function setup() {
   //initial logic and game drawing
