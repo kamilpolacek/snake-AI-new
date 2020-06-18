@@ -41,7 +41,6 @@ function BinaryTree () {
   }
 
   this.deepCopyTree = function(aCurrent, bCurrent) {
-
     let newNode = {
       data : 0,
       leftChild : null,
@@ -58,18 +57,16 @@ function BinaryTree () {
       this.deepCopyTree(aCurrent.leftChild, bCurrent.leftChild);
     }
 
-    newNode = {
+    let newNode2 = {
       data : 0,
       leftChild : null,
       rightChild : null
     }
 
     if(bCurrent.rightChild != null) {
-      aCurrent.rightChild = newNode;
+      aCurrent.rightChild = newNode2;
       this.deepCopyTree(aCurrent.rightChild, bCurrent.rightChild);
     }
-
-
   }
 
   this.chooseFunctionOrTerminal = function() {

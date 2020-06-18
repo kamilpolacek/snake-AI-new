@@ -25,6 +25,8 @@ var time = 0; // for ending the setInterval
 var start = false; // true if player started started
 var time2 = 0;
 
+//IN PROGRESS -> evolve function!
+
 //AI variables, maxMoves??
 // bestRUN (147)-> evolutionRepetition - 70, simulationRepetition - 3, populationSize - 2000, maxDepth - 6, pickRange - 4 (1/4), chance for picking function -> 1/2
 snake2 = new Snake(); // ais snake

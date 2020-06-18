@@ -8,7 +8,6 @@ function Ai(populationSize, maxDepth, simulationRepetition) {
   this.simulationRepetition = simulationRepetition;
 
 
-
   this.makeInitPopulation = function() {
     for(let i=0; i<this.populationSize; i++) {
       this.population[i] = new BinaryTree();
@@ -19,7 +18,6 @@ function Ai(populationSize, maxDepth, simulationRepetition) {
 
   this.runEvolution = function(n) {
     for(let i=0; i<n-1; i++) {
-
       this.cleanFitness();
       this.runSimulation();
 
@@ -67,14 +65,32 @@ function Ai(populationSize, maxDepth, simulationRepetition) {
    this.establishNewPopulation();
   }
 
-  this.switchBranchesTest = function() {
-    let randomTree1=Math.round(Math.random()*range);
-    let randomTree2=Math.round(Math.random()*range);
+  this.switchBranchesTest = function(randomTree1, randomTree2) {
+    let currentTree1 = this.population[randomTree1].root;
+    let currentTree2 = this.population[randomTree2].root;
 
-    if(randomTree1 == randomTree2) {
-      i--;
-      continue;
+    let randomTreeDepth1 = Math.round(Math.random()*(this.maxDepth-1)); // from 0 to maxDepth-1
+    let randomTreeDepth2 = Math.ceil(Math.random()*(this.maxDepth-1)); // from 1 to maxDepth-1
+
+    for(i=0; i<randomTreeDepth1; i++) {
+      let random = Math.round(Math.random()*1);
+
+      if( (currentTree1.leftChild.leftChild == null || currentTree1.leftChild.rightChild == null) &&
+          (currentTree1.rightChild.leftChild == null || currentTree1.rightChild.rightChild == null) )
+          break;
+
+      if(currentTree1.leftChild.leftChild == null && currentTree1.leftChild.rightChild == null) {
+        currentTree1 = currentTree1.rightChild;
+        continue;
+      }
+
+      if(currentTree1.rightChild.leftChild == null && currentTree1.rightChild.rightChild == null) {
+        currentTree1 = currentTree1.leftChild;
+        continue;
+      }
+
     }
+
 
 
   }
@@ -92,9 +108,9 @@ function Ai(populationSize, maxDepth, simulationRepetition) {
     for(let i=0; i<depth; i++) {
       let random = Math.round(Math.random()*1);
 
-      if(branch == 1 && (current.leftChild.leftChild == null || current.leftChild.rightChild == null ||
+    /*  if(branch == 1 && (current.leftChild.leftChild == null || current.leftChild.rightChild == null ||
         current.rightChild.leftChild == null || current.rightChild.rightChild == null) )
-        return current;
+        return current;*/
       if(branch == 2 && (current.leftChild == null || current.rightChild == null) )
         return current;
 
@@ -171,7 +187,7 @@ function Ai(populationSize, maxDepth, simulationRepetition) {
           //console.log("move " + move);
           //this.population[j].fitness += 0.01;
 
-        }
+      }
 
 
       //  console.log(this.population[i]);
