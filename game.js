@@ -14,7 +14,7 @@ const canvas2 = document.getElementById('canvas2');
 const ctx2 = canvas2.getContext('2d');
 
 //canvas size
-canvas.width = canvas.height = canvas2.width = canvas2.height = 600;
+canvas.width = canvas.height = canvas2.width = canvas2.height = 160;
 
 //game variables
 snake = new Snake(); // players snake
@@ -24,30 +24,31 @@ var commands = 0; // counts commands from keyboard -> only one per interval allo
 var time = 0; // for ending the setInterval
 var start = false; // true if player started started
 var time2 = 0;
-var k=0;
-//AI variables
+
+//AI variables, maxMoves??
+// bestRUN (147)-> evolutionRepetition - 70, simulationRepetition - 3, populationSize - 2000, maxDepth - 6, pickRange - 4 (1/4), chance for picking function -> 1/2
 snake2 = new Snake(); // ais snake
-EvolutionRepetition = 60;
-populationSize = 1000;
-maxDepth = 6; //  number of nodes = 2^maxDepth - 1 
-ai = new Ai(populationSize, maxDepth); 
+evolutionRepetition = 65; // dont forget to change binary tree
+simulationRepetition = 3;
+populationSize = 2000; // size of an initial population
+maxDepth = 6; //  number of nodes in a tree = 2^maxDepth - 1
+ai = new Ai(populationSize, maxDepth, simulationRepetition);
 ai.makeInitPopulation(); // init population size && maxDepth of each tree
-//ai.Evolve();
+var AiMoves=0;
 
 
 
-ai.runEvolution(EvolutionRepetition);
-/*for(let i=0; i<3; i++) {
-  ai.runSimulation();
-}*/
 
-ai.population.sort(ai.sortPopulation);
+ai.runEvolution(evolutionRepetition);
+
+
 console.log("simulation over");
 console.log(ai.population);
 //console.log(ai.offsprings);
 //ai.runSimulation2();
-ai.snake = snake2;
 
+ai.snake = snake2;
+canvas.width = canvas.height = canvas2.width = canvas2.height = 600;
 
 /******** main function for the player ********/
 (function setup() {
@@ -81,6 +82,9 @@ ai.snake = snake2;
   snake2.move();
   snake2.move(); // dealing with snakes tail (twice)
 
+  snake2.chooseRandomPath();
+  snake2.move();
+
   snake2.create(ctx2);
   snake2.pickFruitLocation();
   snake2.createFruit(ctx2);
@@ -97,10 +101,10 @@ ai.snake = snake2;
       snake2.move();
       snake2.create(ctx2);
       snake2.checkCrash2(time2);
-      k++;
-  }, speed/3);
+      AiMoves++;
+  }, speed/6);
 }());
-console.log("moves " +k);
+
 /******** listens for keyboard input ********/
 window.addEventListener('keydown', ((evt) => {
   var direction = evt.key.replace('Arrow', '');

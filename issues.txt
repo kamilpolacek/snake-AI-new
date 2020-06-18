@@ -18,30 +18,34 @@ UI
 6. HOW TO GO THROUGH THE THREE WHEN PLAYING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?
 7. print each runs best
 13. could be the default depth of a tree random ? (each tree would have to have a depth variable) (already is y dumbass)
-
-
-8. how to switch branches??? (considering dealing with references) 
-9. how to combine parents into offspring 
+8. how to switch branches??? (considering dealing with references)
+9. how to combine parents into offspring
 10. how many parents to choose (flexible or hardcoded) (based on what) (start with 1/3)
 12. choosing parents to fuck ()
 11. how many offsprings (flexible or hardcoded) (based on what) (start with initial population size)
 
+12.memory issues!
+
 
 IDEADS
 1.making new object -> functions ?
-2.new function for snake controlling -> nextstepdeath? & look into future concept ?\
+2.new function for snake controlling -> nextstepdeath? & look into future concept ?
 3.run a test initiating variables like size of population randomly (could take whole day maybe even couple)
-4.running couple of evolutions saving best ten snakes then run one more with just this ten from each evolution\
+4.running couple of evolutions saving best ten snakes then run one more with just this ten from each evolution run
 5.flexible populationSize
+6. end evolution automatically? wont work
+7.. memory???
+8. if fitness is much lower then during the previous runs assing the lowest one?
+9. different canvas siz e\
+10. manually controlling population size
+11. random size of the tree?? (during making)
 
 
 WEB APP & DESIGN
 1. design the shit out of it
 2. multiple devices problem
-3. security -> hide the functions that can be hidden & test those that are not 
+3. security -> hide the functions that can be hidden & test those that are not
 
 
 FINISh
 1.research and learn the most wanted skill
-
-

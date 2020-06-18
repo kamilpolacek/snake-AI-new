@@ -171,10 +171,10 @@ function Snake() {
   }
 /******** ending the game ********/
   this.gameOver = function() {
-   
-    if(time2 != 0 || time != 0)  {// avoids slowing down simulation process 
+
+    if(time2 != 0 || time != 0)  {// avoids slowing down simulation process
       window.clearInterval(time2);
-      console.log(k);
+      console.log(AiMoves);
     }
   }
 

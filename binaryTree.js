@@ -8,19 +8,14 @@ function BinaryTree () {
   this.fitness = 0;
   this.depth = 0;
   this.nOfNodes = 1;
-  
-  
+
+
   this.makeRandomTree = function(maxDepth, current) {
     if(maxDepth == 1) {
       current.data = this.chooseTerminal();
       return;
     }
 
-    /*if( (Math.round(Math.random()*15)) == 15 && current != this.root) {
-      current.data = this.chooseTerminal();
-      //console.log("skipped");
-      return;
-    }*/
     if(current.data == 'Up' || current.data == 'Right' || current.data == 'Down' || current.data == 'Left' ) {
       return;
     }
@@ -46,7 +41,7 @@ function BinaryTree () {
   }
 
   this.deepCopyTree = function(aCurrent, bCurrent) {
-    
+
     let newNode = {
       data : 0,
       leftChild : null,
@@ -55,7 +50,7 @@ function BinaryTree () {
 
     aCurrent.data = bCurrent.data;
 
-    if(bCurrent.leftChild == null && bCurrent.rightChild == null) 
+    if(bCurrent.leftChild == null && bCurrent.rightChild == null)
       return;
 
     if(bCurrent.leftChild != null) {
@@ -73,8 +68,8 @@ function BinaryTree () {
       aCurrent.rightChild = newNode;
       this.deepCopyTree(aCurrent.rightChild, bCurrent.rightChild);
     }
-    
-    
+
+
   }
 
   this.chooseFunctionOrTerminal = function() {
@@ -83,7 +78,7 @@ function BinaryTree () {
     if(this.root.data === 0) {
       this.root.data = this.chooseFunction();
     }
-    if(random == 1)
+    if(random > 0)
       return this.chooseTerminal();
     else {
       return this.chooseFunction();
